@@ -4,22 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+
+    tools:context=".Activity.MainActivity">
 
 
     <FrameLayout
         android:id="@+id/framlayout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/bottom_view"
-        />
+        app:layout_constraintTop_toTopOf="parent" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:layout_width="match_parent"
         android:id="@+id/bottom_view"
-        app:menu="@menu/folder"
+        android:background="#FFFFFF"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:itemTextColor="@color/selector_tab"
+       app:labelVisibilityMode="unlabeled"
+        app:itemIconTint="@color/selector_tab"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:menu="@menu/folder" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

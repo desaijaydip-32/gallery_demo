@@ -4,7 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/black"
-    tools:context=".VideoPlayActivity">
+    tools:context=".Activity.VideoPlayActivity">
 
     <RelativeLayout
         android:id="@+id/relative"

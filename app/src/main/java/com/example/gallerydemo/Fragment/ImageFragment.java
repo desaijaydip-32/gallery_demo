@@ -1,4 +1,4 @@
-package com.example.gallerydemo;
+package com.example.gallerydemo.Fragment;
 
 import android.Manifest;
 import android.app.Activity;
@@ -19,8 +19,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
-import android.widget.ImageButton;
 import android.widget.Toast;
+
+import com.example.gallerydemo.Adapter.Adapter_PhotosFolder;
+import com.example.gallerydemo.Model.Model_images;
+import com.example.gallerydemo.Activity.PhotosActivity;
+import com.example.gallerydemo.R;
 
 import java.util.ArrayList;
 
@@ -132,6 +136,7 @@ public class ImageFragment extends Fragment {
 
         Adapter_PhotosFolder obj_adapter = new Adapter_PhotosFolder(getContext(),al_images);
         gv_folder.setAdapter(obj_adapter);
+        obj_adapter.notifyDataSetChanged();
         return al_images;
     }
 

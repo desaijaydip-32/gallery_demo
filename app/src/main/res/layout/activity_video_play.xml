@@ -5,7 +5,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/black"
-    tools:context=".VideoPlayActivity">
+    tools:context=".Activity.VideoPlayActivity">
 
     <RelativeLayout
         android:id="@+id/relative"
@@ -43,28 +43,28 @@
             android:id="@+id/pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-           />
+            android:contentDescription="@string/app_name" />
 
         <ImageView
             android:id="@+id/next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            />
+            android:layout_marginStart="10dp"
+            android:contentDescription="@string/app_name" />
 
         <TextView
             android:id="@+id/current"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
-            android:textSize="10dp"
+            android:textSize="10sp"
             android:text="00:00"
             />
 
         <SeekBar
             android:id="@+id/seekbar"
             style="@style/Base.Widget.AppCompat.SeekBar"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="6dp"
             android:layout_weight="1"
@@ -76,8 +76,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="4dp"
             android:layout_marginEnd="2dp"
-            android:textSize="10dp"
-            android:text="00:00"
+            android:textSize="10sp"
+            android:text="@string/_00_00"
             />
 
     </LinearLayout>

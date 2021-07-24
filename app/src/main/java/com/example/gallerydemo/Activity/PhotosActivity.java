@@ -1,19 +1,13 @@
-package com.example.gallerydemo;
+package com.example.gallerydemo.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.telephony.ims.RcsUceAdapter;
-import android.util.Log;
-import android.util.StringBuilderPrinter;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.GridView;
 
-import java.util.ArrayList;
+import com.example.gallerydemo.Adapter.GridViewAdapter;
+import com.example.gallerydemo.Fragment.ImageFragment;
+import com.example.gallerydemo.R;
 
 public class PhotosActivity extends AppCompatActivity {
 
@@ -26,8 +20,10 @@ public class PhotosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_photos);
         gridView = findViewById(R.id.gv_folder);
 
+
         int_position = getIntent().getIntExtra("value", 0);
-        GridViewAdapter  adapter = new GridViewAdapter(this,ImageFragment.al_images, int_position);
+        GridViewAdapter adapter = new GridViewAdapter(this, ImageFragment.al_images, int_position);
+        adapter.notifyDataSetChanged();
         gridView.setAdapter(adapter);
 
     }

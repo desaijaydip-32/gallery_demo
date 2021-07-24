@@ -1,4 +1,4 @@
-package com.example.gallerydemo;
+package com.example.gallerydemo.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,24 +10,28 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.example.gallerydemo.Activity.FullScreenSizeActivity;
+import com.example.gallerydemo.Model.Model_images;
+import com.example.gallerydemo.R;
 
 import java.util.ArrayList;
 
-public class Adapter_PhotosFolder extends ArrayAdapter<Model_images> {
+
+public class GridViewAdapter extends ArrayAdapter<Model_images> {
+
     Context context;
     ViewHolder viewHolder;
     ArrayList<Model_images> al_menu = new ArrayList<>();
+    int int_position;
 
 
-    public Adapter_PhotosFolder(Context context, ArrayList<Model_images> al_menu) {
-        super(context,R.layout.adapter_photos,al_menu);
+    public GridViewAdapter(Context context, ArrayList<Model_images> al_menu, int int_position) {
+        super(context, R.layout.adapter_photos, al_menu);
         this.al_menu = al_menu;
         this.context = context;
+        this.int_position = int_position;
 
 
     }
@@ -35,8 +39,8 @@ public class Adapter_PhotosFolder extends ArrayAdapter<Model_images> {
     @Override
     public int getCount() {
 
-       // Log.e("ADAPTER LIST SIZE", al_menu.size() + "");
-        return al_menu.size();
+        Log.e("ADAPTER LIST SIZE", al_menu.get(int_position).getAl_imagepath().size() + "");
+        return al_menu.get(int_position).getAl_imagepath().size();
     }
 
     @Override
@@ -46,8 +50,8 @@ public class Adapter_PhotosFolder extends ArrayAdapter<Model_images> {
 
     @Override
     public int getViewTypeCount() {
-        if (al_menu.size() > 0) {
-            return al_menu.size();
+        if (al_menu.get(int_position).getAl_imagepath().size() > 0) {
+            return al_menu.get(int_position).getAl_imagepath().size();
         } else {
             return 1;
         }
@@ -76,13 +80,25 @@ public class Adapter_PhotosFolder extends ArrayAdapter<Model_images> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.tv_foldern.setText(al_menu.get(position).getStr_folder());
-        viewHolder.tv_foldersize.setText(al_menu.get(position).getAl_imagepath().size()+"");
+        viewHolder.tv_foldern.setVisibility(View.GONE);
+        viewHolder.tv_foldersize.setVisibility(View.GONE);
 
-        Glide.with(context).load(al_menu.get(position).getAl_imagepath().get(0))
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
+
+        Glide.with(context).load(al_menu.get(int_position).getAl_imagepath().get(position))
                 .into(viewHolder.iv_image);
+
+          viewHolder.iv_image.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View v) {
+                  Intent intent = new Intent(context, FullScreenSizeActivity.class);
+//                  intent.putExtra("postion", position);
+//                  intent.putExtra("postion1", int_position);
+                  intent.putExtra("imgpath",al_menu.get(int_position).getAl_imagepath().get(position) );
+                  context.startActivity(intent);
+                  //Log.e("imgpath",al_menu.get(int_position).getAl_imagepath().get(position));
+              }
+          });
+
 
         return convertView;
 
@@ -94,6 +110,4 @@ public class Adapter_PhotosFolder extends ArrayAdapter<Model_images> {
 
 
     }
-
-
 }

@@ -1,4 +1,4 @@
-package com.example.gallerydemo;
+package com.example.gallerydemo.Activity;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,7 +6,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
@@ -22,7 +21,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-import static java.security.AccessController.getContext;
+import com.example.gallerydemo.Fragment.VideoFragment;
+import com.example.gallerydemo.R;
 
 public class VideoPlayActivity extends AppCompatActivity {
     VideoView videoView;

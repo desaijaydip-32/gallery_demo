@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:id="@+id/imgfolder" android:title="image"/>
-    <item android:id="@+id/video" android:title="vidoes"/>
-
+    <item
+        android:id="@+id/imgfolder"
+        android:icon="@drawable/ic_image"
+        android:title="image" />
+    <item
+        android:id="@+id/video"
+        android:icon="@drawable/ic_video"
+        android:title="vidoes" />
 
 </menu>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/share"
+        android:icon="@drawable/ic_baseline_share_24"
+        android:title="Share" />
+
+    <item
+        android:id="@+id/edit"
+        android:icon="@drawable/ic_edit"
+        android:title="Edit" />
+
+    <item
+        android:id="@+id/like_img"
+        android:icon="@drawable/heart_ic"
+        android:title="Like" />
+
+    <item
+        android:id="@+id/delete"
+        android:icon="@drawable/ic_baseline_delete_24"
+        android:title="delete" />
+    <item
+        android:id="@+id/details"
+        android:icon="@drawable/view_ic"
+        android:title="details" />
+</menu>

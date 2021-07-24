@@ -12,10 +12,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GalleryDemo">
-        <activity android:name=".FullScreenSize"></activity>
-        <activity android:name=".VideoPlayActivity" />
-        <activity android:name=".PhotosActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activity.FullScreenSizeActivity"></activity>
+        <activity android:name=".Activity.VideoPlayActivity" />
+        <activity android:name=".Activity.PhotosActivity" />
+        <activity android:name=".Activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

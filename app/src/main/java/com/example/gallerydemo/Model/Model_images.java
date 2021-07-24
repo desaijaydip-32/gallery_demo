@@ -1,4 +1,4 @@
-package com.example.gallerydemo;
+package com.example.gallerydemo.Model;
 
 import java.util.ArrayList;
 
