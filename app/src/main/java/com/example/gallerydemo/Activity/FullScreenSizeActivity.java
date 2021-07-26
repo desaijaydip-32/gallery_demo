@@ -4,8 +4,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.media.ExifInterface;
@@ -16,16 +20,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.gallerydemo.Adapter.EffectAdapter;
+import com.example.gallerydemo.Adapter.FilterMenuAdapter;
 import com.example.gallerydemo.Fragment.FileterFragment;
 import com.example.gallerydemo.Fragment.ImageFragment;
 import com.example.gallerydemo.Fragment.VideoFragment;
 import com.example.gallerydemo.R;
 import com.example.gallerydemo.databinding.ActivityFullScreenSizeBinding;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.mukesh.image_processing.ImageProcessor;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,12 +43,17 @@ import java.text.DecimalFormat;
 
 public class FullScreenSizeActivity extends AppCompatActivity {
 
-    ActivityFullScreenSizeBinding binding;
+   ActivityFullScreenSizeBinding binding;
     private String path;
+    public int img_icon[];
+    public Bitmap[] filter_img;
+    public String filtet_menu[];
+    ImageView imageView;
 
-    {
-        System.loadLibrary("NativeImageProcessor");
-    }
+    ImageView orignalTv, oneIV, twoIV, threeIV, fourIV, fiveIV, sixIV, sevenIV, eightIV, nineIV, tenIV, originalIV;
+    Bitmap oneBitMap, twoBitMap, threeBitmap, fourBitMap, fiveBitMap, sixBitMap, sevenBitMap, eightBitMap, nineBitMap, tenBitMap;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +70,7 @@ public class FullScreenSizeActivity extends AppCompatActivity {
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
+                    @SuppressLint("NonConstantResourceId")
                     @Override
                     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -64,7 +80,7 @@ public class FullScreenSizeActivity extends AppCompatActivity {
                                 break;
 
                             case R.id.edit:
-                                effectImg();
+                                effectImg(path);
                                 break;
 
                             case R.id.like_img:
@@ -73,7 +89,8 @@ public class FullScreenSizeActivity extends AppCompatActivity {
 
                             case R.id.delete:
                                 deletimage(path);
-                                startActivity(new Intent(FullScreenSizeActivity.this, MainActivity.class));                                break;
+                                startActivity(new Intent(FullScreenSizeActivity.this, MainActivity.class));
+                                break;
 
                             case R.id.details:
                                 detailsImages(path);
@@ -87,14 +104,51 @@ public class FullScreenSizeActivity extends AppCompatActivity {
 
     }
 
-    private void effectImg() {
+    private void effectImg(String path) {
+
+        binding.recyclerview12.setVisibility(View.VISIBLE);
+        binding.bottomNavigation.setVisibility(View.GONE);
+        binding.recyclerview1.setVisibility(View.VISIBLE);
 
 
+        img_icon = new int[]{R.drawable.ic_filter, R.drawable.ic_text};
+        filtet_menu = new String[]{"filter", "text"};
+        imageView = findViewById(R.id.recyclerview);
+
+        binding.recyclerview12.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        binding.recyclerview12.setAdapter(new FilterMenuAdapter(FullScreenSizeActivity.this, img_icon, filtet_menu));
+
+//
+        File imgFile = new File(path);
+        Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+//
+//
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        AlertDialog dialog = builder.create();
+//        View view = LayoutInflater.from(this).inflate(R.layout.bottomnavigatio_dialoge, null, false);
 
 
+        ImageProcessor processor = new ImageProcessor();
+//
+//        oneIV = view.findViewById(R.id.idIVOne);
+//        twoIV = view.findViewById(R.id.idIVTwo);
+//        threeIV = view.findViewById(R.id.idIVThree);
+//        fourIV = view.findViewById(R.id.idIVFour);
+//        fiveIV = view.findViewById(R.id.idIVFive);
+//
+//        orignalTv = view.findViewById(R.id.idIVOriginalImage);
 
+       // orignalTv.setImageBitmap(myBitmap);
 
+        oneBitMap = processor.tintImage(myBitmap, 90);
 
+        twoBitMap = processor.applySnowEffect(myBitmap);
+
+        fourBitMap = processor.createSepiaToningEffect(myBitmap,1, 2, 1, 5);
+
+        filter_img = new Bitmap[]{oneBitMap,twoBitMap, fourBitMap};
+        binding.recyclerview1.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        binding.recyclerview1.setAdapter(new EffectAdapter(FullScreenSizeActivity.this,filter_img,imageView ));
     }
 
     @Override
@@ -198,6 +252,7 @@ public class FullScreenSizeActivity extends AppCompatActivity {
 //    }
 
     private void shareImages(String fileUri) {
+
         Intent sharingIntent = new Intent(Intent.ACTION_SEND);
         Uri imageUri = Uri.parse(fileUri);
         sharingIntent.setType("image/*");
@@ -206,6 +261,7 @@ public class FullScreenSizeActivity extends AppCompatActivity {
     }
 
     private void deletimage(String path) {
+
         File fdelete = new File(path);
         if (fdelete.exists()) {
             if (fdelete.delete()) {
@@ -220,4 +276,6 @@ public class FullScreenSizeActivity extends AppCompatActivity {
         }
 
     }
+
+
 }

@@ -23,8 +23,8 @@ public class PhotosActivity extends AppCompatActivity {
 
         int_position = getIntent().getIntExtra("value", 0);
         GridViewAdapter adapter = new GridViewAdapter(this, ImageFragment.al_images, int_position);
-        adapter.notifyDataSetChanged();
         gridView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
 
     }
 }

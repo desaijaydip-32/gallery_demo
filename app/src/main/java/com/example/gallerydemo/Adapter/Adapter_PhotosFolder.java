@@ -21,7 +21,7 @@ public class Adapter_PhotosFolder extends ArrayAdapter<Model_images> {
 
 
     public Adapter_PhotosFolder(Context context, ArrayList<Model_images> al_menu) {
-        super(context, R.layout.adapter_photos,al_menu);
+        super(context, R.layout.adapter_photos, al_menu);
         this.al_menu = al_menu;
         this.context = context;
 
@@ -31,7 +31,6 @@ public class Adapter_PhotosFolder extends ArrayAdapter<Model_images> {
     @Override
     public int getCount() {
 
-       // Log.e("ADAPTER LIST SIZE", al_menu.size() + "");
         return al_menu.size();
     }
 
@@ -73,12 +72,12 @@ public class Adapter_PhotosFolder extends ArrayAdapter<Model_images> {
         }
 
         viewHolder.tv_foldern.setText(al_menu.get(position).getStr_folder());
-        viewHolder.tv_foldersize.setText(al_menu.get(position).getAl_imagepath().size()+"");
+        viewHolder.tv_foldersize.setText(al_menu.get(position).getAl_imagepath().size() + "");
 
         Glide.with(context).load(al_menu.get(position).getAl_imagepath().get(0))
                 .into(viewHolder.iv_image);
 
-          // Log.e("Details",al_menu.get(position).getAl_imagepath().det )
+        // Log.e("Details",al_menu.get(position).getAl_imagepath().det )
 
         return convertView;
 

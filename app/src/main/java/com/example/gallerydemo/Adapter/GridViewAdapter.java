@@ -32,14 +32,10 @@ public class GridViewAdapter extends ArrayAdapter<Model_images> {
         this.al_menu = al_menu;
         this.context = context;
         this.int_position = int_position;
-
-
     }
 
     @Override
     public int getCount() {
-
-        Log.e("ADAPTER LIST SIZE", al_menu.get(int_position).getAl_imagepath().size() + "");
         return al_menu.get(int_position).getAl_imagepath().size();
     }
 
@@ -93,8 +89,11 @@ public class GridViewAdapter extends ArrayAdapter<Model_images> {
                   Intent intent = new Intent(context, FullScreenSizeActivity.class);
 //                  intent.putExtra("postion", position);
 //                  intent.putExtra("postion1", int_position);
-                  intent.putExtra("imgpath",al_menu.get(int_position).getAl_imagepath().get(position) );
+
+
+                  intent.putExtra("imgpath", al_menu.get(int_position).getAl_imagepath().get(position) );
                   context.startActivity(intent);
+
                   //Log.e("imgpath",al_menu.get(int_position).getAl_imagepath().get(position));
               }
           });
