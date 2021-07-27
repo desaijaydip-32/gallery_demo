@@ -31,13 +31,10 @@ public class MainActivity extends AppCompatActivity {
                         Fragment temp = null;
                         switch (item.getItemId()) {
                             case R.id.imgfolder:
-
                                 temp = new ImageFragment();
-
                                 break;
                             case R.id.video:
                                 temp = new VideoFragment();
-
                                 break;
 
                         }

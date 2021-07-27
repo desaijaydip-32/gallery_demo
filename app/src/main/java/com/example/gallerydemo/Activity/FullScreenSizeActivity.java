@@ -101,17 +101,17 @@ public class FullScreenSizeActivity extends AppCompatActivity {
                     }
                 });
 
+
         binding.likeImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
-
-                if (clicked)
-                {
+                if (clicked) {
                     binding.likeImageView.setImageResource(R.drawable.ic_ike);
                     clicked = false;
                     getStorageDir(path);
+                    Log.d("imagepath", path);
                 } else {
                     binding.likeImageView.setImageResource(R.drawable.ic_dislike);
                     clicked = true;
@@ -124,25 +124,18 @@ public class FullScreenSizeActivity extends AppCompatActivity {
     private void getStorageDir(String path) {
 
         File file = new File(Environment.getExternalStorageDirectory() + "/folderName/folderName1");
-        if (!file.mkdirs())
-        {
+        if (!file.mkdirs()) {
             file.mkdirs();
         }
-        String filePath = file.getAbsolutePath() + File.separator + path;
-        Log.d("filepath", filePath);
-        ContentValues values = new ContentValues();
 
+        //String filePath = file.getAbsolutePath() + File.separator + file;
+
+        ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-        values.put(MediaStore.MediaColumns.DATA, filePath);
+        values.put(MediaStore.MediaColumns.DATA, path);
+        getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
 
-       getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-
-    }
-
-    private void imageStoreLike() {
-
-        Toast.makeText(this, "like", Toast.LENGTH_SHORT).show();
     }
 
     private void effectImg(String path) {

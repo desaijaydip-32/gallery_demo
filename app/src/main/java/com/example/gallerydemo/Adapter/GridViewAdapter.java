@@ -39,25 +39,6 @@ public class GridViewAdapter extends ArrayAdapter<Model_images> {
         return al_menu.size();
     }
 
-//    @Override
-//    public int getItemViewType(int position) {
-//        return position;
-//    }
-//
-//    @Override
-//    public int getViewTypeCount() {
-//
-//        if (al_menu.get(int_position).getAl_imagepath().size() > 0) {
-//            return al_menu.size();
-//        } else {
-//            return 1;
-//        }
-//    }
-//
-//    @Override
-//    public long getItemId(int position) {
-//        return position;
-//    }
 
 
     @Override
@@ -73,7 +54,6 @@ public class GridViewAdapter extends ArrayAdapter<Model_images> {
             convertView.setTag(viewHolder);
 
         } else {
-
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.tv_foldern.setVisibility(View.GONE);
