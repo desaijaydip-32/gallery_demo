@@ -23,7 +23,7 @@ public class GridViewAdapter extends ArrayAdapter<Model_images> {
 
     Context context;
     ViewHolder viewHolder;
-    ArrayList<Model_images> al_menu = new ArrayList<>();
+    ArrayList<Model_images> al_menu;
     int int_position;
 
 
@@ -36,27 +36,28 @@ public class GridViewAdapter extends ArrayAdapter<Model_images> {
 
     @Override
     public int getCount() {
-        return al_menu.get(int_position).getAl_imagepath().size();
+        return al_menu.size();
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return position;
-    }
-
-    @Override
-    public int getViewTypeCount() {
-        if (al_menu.get(int_position).getAl_imagepath().size() > 0) {
-            return al_menu.get(int_position).getAl_imagepath().size();
-        } else {
-            return 1;
-        }
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
+//    @Override
+//    public int getItemViewType(int position) {
+//        return position;
+//    }
+//
+//    @Override
+//    public int getViewTypeCount() {
+//
+//        if (al_menu.get(int_position).getAl_imagepath().size() > 0) {
+//            return al_menu.size();
+//        } else {
+//            return 1;
+//        }
+//    }
+//
+//    @Override
+//    public long getItemId(int position) {
+//        return position;
+//    }
 
 
     @Override
@@ -69,13 +70,12 @@ public class GridViewAdapter extends ArrayAdapter<Model_images> {
             viewHolder.tv_foldern = (TextView) convertView.findViewById(R.id.tv_folder);
             viewHolder.tv_foldersize = (TextView) convertView.findViewById(R.id.tv_foldersize);
             viewHolder.iv_image = (ImageView) convertView.findViewById(R.id.iv_image);
-
             convertView.setTag(viewHolder);
+
         } else {
 
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
         viewHolder.tv_foldern.setVisibility(View.GONE);
         viewHolder.tv_foldersize.setVisibility(View.GONE);
 
@@ -83,24 +83,16 @@ public class GridViewAdapter extends ArrayAdapter<Model_images> {
         Glide.with(context).load(al_menu.get(int_position).getAl_imagepath().get(position))
                 .into(viewHolder.iv_image);
 
-          viewHolder.iv_image.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View v) {
-                  Intent intent = new Intent(context, FullScreenSizeActivity.class);
-//                  intent.putExtra("postion", position);
-//                  intent.putExtra("postion1", int_position);
+        viewHolder.iv_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, FullScreenSizeActivity.class);
+                intent.putExtra("imgpath", al_menu.get(int_position).getAl_imagepath().get(position));
+                context.startActivity(intent);
 
-
-                  intent.putExtra("imgpath", al_menu.get(int_position).getAl_imagepath().get(position) );
-                  context.startActivity(intent);
-
-                  //Log.e("imgpath",al_menu.get(int_position).getAl_imagepath().get(position));
-              }
-          });
-
-
+            }
+        });
         return convertView;
-
     }
 
     private static class ViewHolder {

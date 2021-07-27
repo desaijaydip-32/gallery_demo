@@ -94,11 +94,11 @@ public class ImageFragment extends Fragment {
         cursor = getContext().getContentResolver().query(uri, projection, null, null, orderBy + " DESC");
 
         column_index_data = cursor.getColumnIndexOrThrow(MediaStore.MediaColumns.DATA);
-
         column_index_folder_name = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
+
+
         while (cursor.moveToNext()) {
             absolutePathOfImage = cursor.getString(column_index_data);
-
 
             Log.e("Column", absolutePathOfImage);
             Log.e("Folder", cursor.getString(column_index_folder_name));
@@ -119,7 +119,6 @@ public class ImageFragment extends Fragment {
                 al_path.addAll(al_images.get(int_position).getAl_imagepath());
                 al_path.add(absolutePathOfImage);
                 al_images.get(int_position).setAl_imagepath(al_path);
-
 
             } else {
 

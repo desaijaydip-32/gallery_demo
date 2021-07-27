@@ -11,8 +11,8 @@ import com.example.gallerydemo.R;
 
 public class PhotosActivity extends AppCompatActivity {
 
-    int int_position;
-    GridView gridView;
+   private int int_position;
+   private GridView gridView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,11 +20,11 @@ public class PhotosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_photos);
         gridView = findViewById(R.id.gv_folder);
 
-
         int_position = getIntent().getIntExtra("value", 0);
+
+
         GridViewAdapter adapter = new GridViewAdapter(this, ImageFragment.al_images, int_position);
         gridView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-
     }
 }

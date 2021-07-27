@@ -18,6 +18,11 @@
     <string name="filter_4">Filter 4</string>
     <string name="save">Save</string>
     <string name="filter1">filter</string>
+    <string name="details">details</string>
+    <string name="delete">delete</string>
+    <string name="share">Share</string>
+    <string name="edit">Edit</string>
+    <string name="like">Like</string>
     <!-- Base application theme. -->
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">

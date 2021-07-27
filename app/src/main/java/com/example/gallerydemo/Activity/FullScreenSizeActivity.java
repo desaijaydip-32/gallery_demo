@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.annotation.SuppressLint;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -15,43 +16,46 @@ import android.graphics.drawable.ColorDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
+
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
+
 import android.view.MenuItem;
 import android.view.View;
+
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.gallerydemo.Adapter.EffectAdapter;
 import com.example.gallerydemo.Adapter.FilterMenuAdapter;
-import com.example.gallerydemo.Fragment.FileterFragment;
-import com.example.gallerydemo.Fragment.ImageFragment;
-import com.example.gallerydemo.Fragment.VideoFragment;
-import com.example.gallerydemo.R;
-import com.example.gallerydemo.databinding.ActivityFullScreenSizeBinding;
 
+import com.example.gallerydemo.R;
+
+
+import com.example.gallerydemo.databinding.ActivityFullScreenSizeBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
+
 import com.mukesh.image_processing.ImageProcessor;
 
 import java.io.File;
 import java.io.IOException;
-import java.text.DecimalFormat;
+
 
 public class FullScreenSizeActivity extends AppCompatActivity {
 
-   ActivityFullScreenSizeBinding binding;
+    ActivityFullScreenSizeBinding binding;
     private String path;
     public int img_icon[];
     public Bitmap[] filter_img;
     public String filtet_menu[];
-    ImageView imageView;
-
-    ImageView orignalTv, oneIV, twoIV, threeIV, fourIV, fiveIV, sixIV, sevenIV, eightIV, nineIV, tenIV, originalIV;
-    Bitmap oneBitMap, twoBitMap, threeBitmap, fourBitMap, fiveBitMap, sixBitMap, sevenBitMap, eightBitMap, nineBitMap, tenBitMap;
+    private ImageView imageView;
+    boolean clicked = true;
+    private Bitmap oneBitMap, twoBitMap, threeBitmap, fourBitMap, fiveBitMap, sixBitMap, sevenBitMap, eightBitMap, nineBitMap, tenBitMap;
 
 
     @Override
@@ -82,11 +86,6 @@ public class FullScreenSizeActivity extends AppCompatActivity {
                             case R.id.edit:
                                 effectImg(path);
                                 break;
-
-                            case R.id.like_img:
-                                Toast.makeText(FullScreenSizeActivity.this, "like", Toast.LENGTH_SHORT).show();
-                                break;
-
                             case R.id.delete:
                                 deletimage(path);
                                 startActivity(new Intent(FullScreenSizeActivity.this, MainActivity.class));
@@ -102,6 +101,48 @@ public class FullScreenSizeActivity extends AppCompatActivity {
                     }
                 });
 
+        binding.likeImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+
+                if (clicked)
+                {
+                    binding.likeImageView.setImageResource(R.drawable.ic_ike);
+                    clicked = false;
+                    getStorageDir(path);
+                } else {
+                    binding.likeImageView.setImageResource(R.drawable.ic_dislike);
+                    clicked = true;
+                }
+            }
+        });
+
+    }
+
+    private void getStorageDir(String path) {
+
+        File file = new File(Environment.getExternalStorageDirectory() + "/folderName/folderName1");
+        if (!file.mkdirs())
+        {
+            file.mkdirs();
+        }
+        String filePath = file.getAbsolutePath() + File.separator + path;
+        Log.d("filepath", filePath);
+        ContentValues values = new ContentValues();
+
+        values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+        values.put(MediaStore.MediaColumns.DATA, filePath);
+
+       getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+    }
+
+    private void imageStoreLike() {
+
+        Toast.makeText(this, "like", Toast.LENGTH_SHORT).show();
     }
 
     private void effectImg(String path) {
@@ -109,6 +150,8 @@ public class FullScreenSizeActivity extends AppCompatActivity {
         binding.recyclerview12.setVisibility(View.VISIBLE);
         binding.bottomNavigation.setVisibility(View.GONE);
         binding.recyclerview1.setVisibility(View.VISIBLE);
+        binding.saveTextView.setVisibility(View.VISIBLE);
+        binding.cancleImg.setVisibility(View.VISIBLE);
 
 
         img_icon = new int[]{R.drawable.ic_filter, R.drawable.ic_text};
@@ -118,65 +161,62 @@ public class FullScreenSizeActivity extends AppCompatActivity {
         binding.recyclerview12.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         binding.recyclerview12.setAdapter(new FilterMenuAdapter(FullScreenSizeActivity.this, img_icon, filtet_menu));
 
-//
+
         File imgFile = new File(path);
         Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-//
-//
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        AlertDialog dialog = builder.create();
-//        View view = LayoutInflater.from(this).inflate(R.layout.bottomnavigatio_dialoge, null, false);
-
 
         ImageProcessor processor = new ImageProcessor();
-//
-//        oneIV = view.findViewById(R.id.idIVOne);
-//        twoIV = view.findViewById(R.id.idIVTwo);
-//        threeIV = view.findViewById(R.id.idIVThree);
-//        fourIV = view.findViewById(R.id.idIVFour);
-//        fiveIV = view.findViewById(R.id.idIVFive);
-//
-//        orignalTv = view.findViewById(R.id.idIVOriginalImage);
-
-       // orignalTv.setImageBitmap(myBitmap);
 
         oneBitMap = processor.tintImage(myBitmap, 90);
-
         twoBitMap = processor.applySnowEffect(myBitmap);
+        fourBitMap = processor.createSepiaToningEffect(myBitmap, 1, 2, 1, 5);
 
-        fourBitMap = processor.createSepiaToningEffect(myBitmap,1, 2, 1, 5);
-
-        filter_img = new Bitmap[]{oneBitMap,twoBitMap, fourBitMap};
+        filter_img = new Bitmap[]{oneBitMap, twoBitMap, fourBitMap};
         binding.recyclerview1.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        binding.recyclerview1.setAdapter(new EffectAdapter(FullScreenSizeActivity.this,filter_img,imageView ));
+        binding.recyclerview1.setAdapter(new EffectAdapter(FullScreenSizeActivity.this, filter_img, imageView, binding.saveTextView));
+
+
+        binding.cancleImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                binding.saveTextView.setVisibility(View.GONE);
+                binding.cancleImg.setVisibility(View.GONE);
+                binding.bottomNavigation.setVisibility(View.VISIBLE);
+                binding.recyclerview1.setVisibility(View.GONE);
+                binding.recyclerview12.setVisibility(View.GONE);
+
+            }
+        });
+
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.images_option, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.share:
-                shareImages(path);
-                break;
-
-            case R.id.delete:
-                deletimage(path);
-                startActivity(new Intent(FullScreenSizeActivity.this, MainActivity.class));
-                break;
-
-            case R.id.details:
-                detailsImages(path);
-                break;
-            default:
-
-        }
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.edit_menu, menu);
+//        return true;
+//    }
+//
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        switch (item.getItemId()) {
+//            case R.id.share:
+//                shareImages(path);
+//                break;
+//
+//            case R.id.delete:
+//                deletimage(path);
+//                startActivity(new Intent(FullScreenSizeActivity.this, MainActivity.class));
+//                break;
+//
+//            case R.id.details:
+//                detailsImages(path);
+//                break;
+//            default:
+//
+//        }
+//        return true;
+//    }
 
     private void detailsImages(String path) {
         TextView pathtxt, titletxt, sizetxt, datatxt;
@@ -184,6 +224,7 @@ public class FullScreenSizeActivity extends AppCompatActivity {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
         View view = LayoutInflater.from(this).inflate(R.layout.details_layout, null, false);
+
         sizetxt = view.findViewById(R.id.textView4);
         pathtxt = view.findViewById(R.id.textView5);
         titletxt = view.findViewById(R.id.textView6);
@@ -241,7 +282,6 @@ public class FullScreenSizeActivity extends AppCompatActivity {
 
         alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         alertDialog.show();
-
 
     }
 

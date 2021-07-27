@@ -1,6 +1,7 @@
 package com.example.gallerydemo.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +41,15 @@ public class FilterMenuAdapter extends RecyclerView.Adapter<FilterMenuAdapter.Cu
     public void onBindViewHolder(@NonNull CustomHolder holder, int position) {
         holder.imageView.setImageResource(img_icon[position]);
         holder.name_text.setText(filtet_menu[position]);
+
+       holder.itemView.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+
+               Log.e("postion", String.valueOf(position));
+           }
+       });
+
 
     }
 

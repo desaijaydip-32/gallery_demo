@@ -3,24 +3,24 @@
     <item
         android:id="@+id/share"
         android:icon="@drawable/ic_baseline_share_24"
-        android:title="Share" />
+        android:title="@string/share" />
 
     <item
         android:id="@+id/edit"
         android:icon="@drawable/ic_edit"
-        android:title="Edit" />
+        android:title="@string/edit" />
 
-    <item
-        android:id="@+id/like_img"
-        android:icon="@drawable/heart_ic"
-        android:title="Like" />
+<!--    <item-->
+<!--        android:id="@+id/like_img"-->
+<!--        android:icon="@drawable/heart_ic"-->
+<!--        android:title="@string/like" />-->
 
     <item
         android:id="@+id/delete"
         android:icon="@drawable/ic_baseline_delete_24"
-        android:title="delete" />
+        android:title="@string/delete" />
     <item
         android:id="@+id/details"
         android:icon="@drawable/view_ic"
-        android:title="details" />
+        android:title="@string/details" />
 </menu>
