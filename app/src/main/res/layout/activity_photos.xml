@@ -7,11 +7,11 @@
     tools:context=".Activity.MainActivity">
 
 
-    <GridView
-        android:id="@+id/gv_folder"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/gv_folder1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="10dp"
-        android:numColumns="3"
+        android:numColumns="2"
         android:layout_marginRight="10dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

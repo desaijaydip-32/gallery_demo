@@ -1,6 +1,7 @@
 package com.example.gallerydemo.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,86 +9,76 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.bumptech.glide.Glide;
+import com.example.gallerydemo.Activity.PhotosActivity;
 import com.example.gallerydemo.Model.Model_images;
 import com.example.gallerydemo.R;
 
 import java.util.ArrayList;
 
-public class Adapter_PhotosFolder extends ArrayAdapter<Model_images> {
+public class Adapter_PhotosFolder extends RecyclerView.Adapter<Adapter_PhotosFolder.ViewHolder> {
     Context context;
-    ViewHolder viewHolder;
+
     ArrayList<Model_images> al_menu = new ArrayList<>();
 
 
     public Adapter_PhotosFolder(Context context, ArrayList<Model_images> al_menu) {
-        super(context, R.layout.adapter_photos, al_menu);
+
         this.al_menu = al_menu;
         this.context = context;
 
+    }
+
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_photos, parent, false);
+        return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.tv_foldern.setText(al_menu.get(position).getStr_folder());
+        holder.tv_foldersize.setText(al_menu.get(position).getAl_imagepath().size() + "");
+
+        Glide.with(context).load(al_menu.get(position).getAl_imagepath().get(0))
+                .into(holder.iv_image);
+
+        holder.iv_image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(context, PhotosActivity.class);
+                intent.putExtra("value", al_menu.get(position).getAl_imagepath());
+                intent.putExtra("postiton", position);
+                context.startActivity(intent);
+            }
+        });
+
 
     }
 
     @Override
-    public int getCount() {
-
+    public int getItemCount() {
         return al_menu.size();
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return position;
-    }
 
-    @Override
-    public int getViewTypeCount() {
-        if (al_menu.size() > 0) {
-            return al_menu.size();
-        } else {
-            return 1;
-        }
-    }
+    class ViewHolder extends RecyclerView.ViewHolder {
 
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-
-    @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-
-        if (convertView == null) {
-
-            viewHolder = new ViewHolder();
-            convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_photos, parent, false);
-            viewHolder.tv_foldern = (TextView) convertView.findViewById(R.id.tv_folder);
-            viewHolder.tv_foldersize = (TextView) convertView.findViewById(R.id.tv_foldersize);
-            viewHolder.iv_image = (ImageView) convertView.findViewById(R.id.iv_image);
-
-            convertView.setTag(viewHolder);
-        } else {
-
-            viewHolder = (ViewHolder) convertView.getTag();
-        }
-
-        viewHolder.tv_foldern.setText(al_menu.get(position).getStr_folder());
-        viewHolder.tv_foldersize.setText(al_menu.get(position).getAl_imagepath().size() + "");
-
-        Glide.with(context).load(al_menu.get(position).getAl_imagepath().get(0))
-                .into(viewHolder.iv_image);
-
-        // Log.e("Details",al_menu.get(position).getAl_imagepath().det )
-
-        return convertView;
-
-    }
-
-    private static class ViewHolder {
         TextView tv_foldern, tv_foldersize;
         ImageView iv_image;
 
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
 
+            tv_foldern = (TextView) itemView.findViewById(R.id.tv_folder);
+            tv_foldersize = (TextView) itemView.findViewById(R.id.tv_foldersize);
+            iv_image = (ImageView) itemView.findViewById(R.id.iv_image);
+        }
     }
 
 

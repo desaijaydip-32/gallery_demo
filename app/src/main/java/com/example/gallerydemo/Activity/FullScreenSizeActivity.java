@@ -43,13 +43,14 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.mukesh.image_processing.ImageProcessor;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 
 public class FullScreenSizeActivity extends AppCompatActivity {
 
     ActivityFullScreenSizeBinding binding;
-    private String path;
+    private String path1;
     public int img_icon[];
     public Bitmap[] filter_img;
     public String filtet_menu[];
@@ -66,11 +67,12 @@ public class FullScreenSizeActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
 
-        path = getIntent().getStringExtra("imgpath");
+        path1 = getIntent().getStringExtra("imgpath");
+
 //        postion = getIntent().getIntExtra("postion",0);
 //        postion1= getIntent().getIntExtra("postion1",0);
 
-        Glide.with(this).load(path).into(binding.recyclerview);
+        Glide.with(this).load(path1).into(binding.recyclerview);
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -80,19 +82,19 @@ public class FullScreenSizeActivity extends AppCompatActivity {
 
                         switch (item.getItemId()) {
                             case R.id.share:
-                                shareImages(path);
+                                shareImages(path1);
                                 break;
 
                             case R.id.edit:
-                                effectImg(path);
+                                effectImg(path1);
                                 break;
                             case R.id.delete:
-                                deletimage(path);
+                                deletimage(path1);
                                 startActivity(new Intent(FullScreenSizeActivity.this, MainActivity.class));
                                 break;
 
                             case R.id.details:
-                                detailsImages(path);
+                                detailsImages(path1);
                                 break;
                             default:
 
@@ -100,25 +102,6 @@ public class FullScreenSizeActivity extends AppCompatActivity {
                         return true;
                     }
                 });
-
-
-        binding.likeImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                if (clicked) {
-                    binding.likeImageView.setImageResource(R.drawable.ic_ike);
-                    clicked = false;
-                    getStorageDir(path);
-                    Log.d("imagepath", path);
-                } else {
-                    binding.likeImageView.setImageResource(R.drawable.ic_dislike);
-                    clicked = true;
-                }
-            }
-        });
-
     }
 
     private void getStorageDir(String path) {
@@ -128,8 +111,7 @@ public class FullScreenSizeActivity extends AppCompatActivity {
             file.mkdirs();
         }
 
-        //String filePath = file.getAbsolutePath() + File.separator + file;
-
+        String filePath = file.getAbsolutePath() + File.separator + file;
         ContentValues values = new ContentValues();
         values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
         values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
@@ -146,7 +128,6 @@ public class FullScreenSizeActivity extends AppCompatActivity {
         binding.saveTextView.setVisibility(View.VISIBLE);
         binding.cancleImg.setVisibility(View.VISIBLE);
 
-
         img_icon = new int[]{R.drawable.ic_filter, R.drawable.ic_text};
         filtet_menu = new String[]{"filter", "text"};
         imageView = findViewById(R.id.recyclerview);
@@ -157,16 +138,33 @@ public class FullScreenSizeActivity extends AppCompatActivity {
 
         File imgFile = new File(path);
         Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
-
         ImageProcessor processor = new ImageProcessor();
+
 
         oneBitMap = processor.tintImage(myBitmap, 90);
         twoBitMap = processor.applySnowEffect(myBitmap);
         fourBitMap = processor.createSepiaToningEffect(myBitmap, 1, 2, 1, 5);
 
+
         filter_img = new Bitmap[]{oneBitMap, twoBitMap, fourBitMap};
         binding.recyclerview1.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        binding.recyclerview1.setAdapter(new EffectAdapter(FullScreenSizeActivity.this, filter_img, imageView, binding.saveTextView));
+        binding.recyclerview1.setAdapter(new EffectAdapter(FullScreenSizeActivity.this, filter_img, imageView));
+
+
+        binding.saveTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int  img=getIntent().getIntExtra("Image",0);
+                try {
+                    MediaStore.Images.Media.insertImage(getContentResolver(), String.valueOf(img), "img", "data");
+
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        });
+
 
 
         binding.cancleImg.setOnClickListener(new View.OnClickListener() {

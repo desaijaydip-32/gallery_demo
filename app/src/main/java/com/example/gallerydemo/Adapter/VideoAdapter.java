@@ -44,14 +44,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.CustomViewHo
         holder.titletextview.setText(videoArrayList.get(position).getVideoTitle());
 
         String duration =videoArrayList.get(position).getVideoDuration();
-
-
-
         holder.durationtextview.setText(settimeDuration(Long.parseLong(duration)));
-
-
-
-
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

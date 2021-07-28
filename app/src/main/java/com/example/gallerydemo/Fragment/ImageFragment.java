@@ -11,6 +11,8 @@ import android.os.Bundle;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.provider.MediaStore;
 import android.util.Log;
@@ -32,11 +34,11 @@ public class ImageFragment extends Fragment {
 
 
 
-    public static ArrayList<Model_images> al_images = new ArrayList<>();
+    public  static ArrayList<Model_images> al_images = new ArrayList<>();
     boolean boolean_folder;
     Adapter_PhotosFolder adapter;
 
-    GridView gv_folder;
+    RecyclerView gv_folder;
     private static final int REQUEST_PERMISSIONS = 100;
 
     @Override
@@ -67,14 +69,14 @@ public class ImageFragment extends Fragment {
             fn_imagespath();
         }
 
-        gv_folder.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(getContext(), PhotosActivity.class);
-                intent.putExtra("value",i);
-                startActivity(intent);
-            }
-        });
+//        gv_folder.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+//                Intent intent = new Intent(getContext(), PhotosActivity.class);
+//                intent.putExtra("value",al_images.get(i).getAl_imagepath());
+//                startActivity(intent);
+//            }
+//        });
         return view;
     }
 
@@ -134,6 +136,7 @@ public class ImageFragment extends Fragment {
         }
 
         Adapter_PhotosFolder obj_adapter = new Adapter_PhotosFolder(getContext(),al_images);
+        gv_folder.setLayoutManager(new GridLayoutManager(getContext(), 2));
         gv_folder.setAdapter(obj_adapter);
         obj_adapter.notifyDataSetChanged();
         return al_images;
