@@ -1,21 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="400dp"
+    android:background="@drawable/sheet_background"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android" >
+
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="30dp"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/contstrain_layout"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    android:paddingBottom="80dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <TextView
+        android:id="@+id/cancletextView"
         android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_height="700dp"
+        android:layout_height="wrap_content"
+        android:text="cancel"
+        android:gravity="center"
+        android:fontFamily="@font/reguler"
+        android:textColor="#373737"
+        android:padding="5dp"
+        android:layout_marginTop="5dp"
         android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp">
-
+        android:layout_marginRight="20dp"
+        android:background="@drawable/cancle_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/sizetextView"
+        tools:layout_editor_absoluteX="194dp" />
 
         <TextView
             android:id="@+id/sizetextView"
@@ -23,9 +43,10 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="Size :"
+            android:layout_marginLeft="10dp"
+            app:layout_constraintTop_toBottomOf="@id/cancletextView"
             android:textColor="@color/textcolor"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
             android:id="@+id/pathtextView2"
@@ -41,7 +62,7 @@
             android:id="@+id/titletextView3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:text="Title :"
             android:textColor="@color/textcolor"
             app:layout_constraintStart_toStartOf="@+id/pathtextView2"
@@ -75,24 +96,8 @@
             app:layout_constraintStart_toStartOf="@+id/textView5"
             app:layout_constraintTop_toTopOf="@+id/titletextView3" />
 
-        <TextView
-            android:id="@+id/textView7"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:text="Data :"
-            android:textColor="@color/textcolor"
-            app:layout_constraintStart_toStartOf="@+id/titletextView3"
-            app:layout_constraintTop_toBottomOf="@+id/titletextView3" />
 
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="time"
-            android:textColor="@color/textcolor"
-            app:layout_constraintStart_toStartOf="@+id/textView6"
-            app:layout_constraintTop_toTopOf="@+id/textView7" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.cardview.widget.CardView>
+</androidx.constraintlayout.widget.ConstraintLayout>
+

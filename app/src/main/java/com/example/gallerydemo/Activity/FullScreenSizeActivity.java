@@ -3,15 +3,21 @@ package com.example.gallerydemo.Activity;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.annotation.SuppressLint;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
@@ -33,17 +39,13 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.gallerydemo.Adapter.EffectAdapter;
 import com.example.gallerydemo.Adapter.FilterMenuAdapter;
-
 import com.example.gallerydemo.R;
-
-
 import com.example.gallerydemo.databinding.ActivityFullScreenSizeBinding;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.mukesh.image_processing.ImageProcessor;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 
@@ -56,7 +58,8 @@ public class FullScreenSizeActivity extends AppCompatActivity {
     public String filtet_menu[];
     private ImageView imageView;
     boolean clicked = true;
-    private Bitmap oneBitMap, twoBitMap, threeBitmap, fourBitMap, fiveBitMap, sixBitMap, sevenBitMap, eightBitMap, nineBitMap, tenBitMap;
+    TextView cancelbtn, deletbtn;
+    Bitmap oneBitMap, twoBitMap, threeBitmap, fourBitMap, fiveBitMap, sixBitMap, sevenBitMap, eightBitMap, nineBitMap, tenBitMap;
 
 
     @Override
@@ -66,13 +69,29 @@ public class FullScreenSizeActivity extends AppCompatActivity {
         binding = ActivityFullScreenSizeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-
         path1 = getIntent().getStringExtra("imgpath");
 
-//        postion = getIntent().getIntExtra("postion",0);
-//        postion1= getIntent().getIntExtra("postion1",0);
 
         Glide.with(this).load(path1).into(binding.recyclerview);
+
+        binding.imageView4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (clicked) {
+                    binding.imageView4.setImageResource(R.drawable.ic_ike);
+                    try {
+
+                        MediaStore.Images.Media.insertImage(getContentResolver(), path1, "img2", "data1");
+
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    startActivity(new Intent(FullScreenSizeActivity.this, MainActivity.class));
+                } else {
+                    binding.imageView4.setImageResource(R.drawable.ic_dislike);
+                }
+            }
+        });
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener(
                 new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -88,9 +107,10 @@ public class FullScreenSizeActivity extends AppCompatActivity {
                             case R.id.edit:
                                 effectImg(path1);
                                 break;
+
+
                             case R.id.delete:
                                 deletimage(path1);
-                                startActivity(new Intent(FullScreenSizeActivity.this, MainActivity.class));
                                 break;
 
                             case R.id.details:
@@ -104,21 +124,22 @@ public class FullScreenSizeActivity extends AppCompatActivity {
                 });
     }
 
-    private void getStorageDir(String path) {
 
-        File file = new File(Environment.getExternalStorageDirectory() + "/folderName/folderName1");
-        if (!file.mkdirs()) {
-            file.mkdirs();
-        }
-
-        String filePath = file.getAbsolutePath() + File.separator + file;
-        ContentValues values = new ContentValues();
-        values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
-        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-        values.put(MediaStore.MediaColumns.DATA, path);
-        getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-
-    }
+//    private void getStorageDir(String path) {
+//
+//        File file = new File(Environment.getExternalStorageDirectory() + "/folderName/folderName1");
+//        if (!file.mkdirs()) {
+//            file.mkdirs();
+//        }
+//
+//        String filePath = file.getAbsolutePath() + File.separator + file;
+//        ContentValues values = new ContentValues();
+//        values.put(MediaStore.Images.Media.DATE_TAKEN, System.currentTimeMillis());
+//        values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+//        values.put(MediaStore.MediaColumns.DATA, path);
+//        getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+//
+//    }
 
     private void effectImg(String path) {
 
@@ -133,7 +154,18 @@ public class FullScreenSizeActivity extends AppCompatActivity {
         imageView = findViewById(R.id.recyclerview);
 
         binding.recyclerview12.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        binding.recyclerview12.setAdapter(new FilterMenuAdapter(FullScreenSizeActivity.this, img_icon, filtet_menu));
+        binding.recyclerview12.setAdapter(new FilterMenuAdapter(FullScreenSizeActivity.this, img_icon, filtet_menu, new FilterMenuAdapter.PostitonPass() {
+            @Override
+            public void sendPostiton(int pos) {
+                if (pos == 1) {
+                    binding.editTextText.setVisibility(View.VISIBLE);
+
+                    writeTextOnDrawable(path, binding.editTextText.getText().toString());
+                } else {
+                    binding.editTextText.setVisibility(View.GONE);
+                }
+            }
+        }));
 
 
         File imgFile = new File(path);
@@ -148,30 +180,38 @@ public class FullScreenSizeActivity extends AppCompatActivity {
 
         filter_img = new Bitmap[]{oneBitMap, twoBitMap, fourBitMap};
         binding.recyclerview1.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        binding.recyclerview1.setAdapter(new EffectAdapter(FullScreenSizeActivity.this, filter_img, imageView));
-
-
-        binding.saveTextView.setOnClickListener(new View.OnClickListener() {
+        binding.recyclerview1.setAdapter(new EffectAdapter(FullScreenSizeActivity.this, filter_img, imageView, new EffectAdapter.SaveImageBitmap() {
             @Override
-            public void onClick(View v) {
-                int  img=getIntent().getIntExtra("Image",0);
-                try {
-                    MediaStore.Images.Media.insertImage(getContentResolver(), String.valueOf(img), "img", "data");
+            public void saveImage(ImageView bitmap) {
 
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                }
+                binding.saveTextView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        bitmap.buildDrawingCache();
+                        Bitmap bmap = imageView.getDrawingCache();
+                        try {
+
+                            MediaStore.Images.Media.insertImage(getContentResolver(), bmap, "img", "data");
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        Toast.makeText(FullScreenSizeActivity.this, "Successfully Stored", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(FullScreenSizeActivity.this, MainActivity.class));
+
+                    }
+                });
 
             }
-        });
-
+        }));
 
 
         binding.cancleImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                binding.saveTextView.setVisibility(View.GONE);
+                binding.saveTextView.setVisibility(View.INVISIBLE);
                 binding.cancleImg.setVisibility(View.GONE);
                 binding.bottomNavigation.setVisibility(View.VISIBLE);
                 binding.recyclerview1.setVisibility(View.GONE);
@@ -182,49 +222,43 @@ public class FullScreenSizeActivity extends AppCompatActivity {
 
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        getMenuInflater().inflate(R.menu.edit_menu, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        switch (item.getItemId()) {
-//            case R.id.share:
-//                shareImages(path);
-//                break;
-//
-//            case R.id.delete:
-//                deletimage(path);
-//                startActivity(new Intent(FullScreenSizeActivity.this, MainActivity.class));
-//                break;
-//
-//            case R.id.details:
-//                detailsImages(path);
-//                break;
-//            default:
-//
-//        }
-//        return true;
-//    }
+    private void writeTextOnDrawable(String path, String text) {
+        File imgFile = new File(path);
+        Bitmap myBitmap = BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+        try {
+            MediaStore.Images.Media.insertImage(getContentResolver(), myBitmap, "img", "data");
+            startActivity(new Intent(FullScreenSizeActivity.this, MainActivity.class));
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private float convertToPixels(Context context, int nDP) {
+        final float conversionScale = context.getResources().getDisplayMetrics().density;
+        return (int) ((nDP * conversionScale) + 0.5f);
+    }
+
 
     private void detailsImages(String path) {
-        TextView pathtxt, titletxt, sizetxt, datatxt;
+        TextView pathtxt, titletxt, sizetxt, datatxt, canceltxt;
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        View view = LayoutInflater.from(this).inflate(R.layout.details_layout, null, false);
+        BottomSheetDialog dialog = new BottomSheetDialog(FullScreenSizeActivity.this, R.style.bottomsheetstle);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        View view = LayoutInflater.from(FullScreenSizeActivity.this).inflate(R.layout.details_layout, (ConstraintLayout) findViewById(R.id.contstrain_layout));
 
         sizetxt = view.findViewById(R.id.textView4);
         pathtxt = view.findViewById(R.id.textView5);
         titletxt = view.findViewById(R.id.textView6);
-        datatxt = view.findViewById(R.id.textView8);
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.setView(view);
+//        datatxt = view.findViewById(R.id.textView8);
+        canceltxt = view.findViewById(R.id.cancletextView);
 
 
+        dialog.setContentView(view);
         File file = new File(path);
         String dirPath = file.getAbsolutePath();
         String imageName = file.getName();
@@ -260,7 +294,7 @@ public class FullScreenSizeActivity extends AppCompatActivity {
 
                 intf = new ExifInterface(path);
                 String dateString = intf.getAttribute(ExifInterface.TAG_DATETIME);
-                datatxt.setText(dateString);
+                //datatxt.setText(dateString);
 
 
             } catch (IOException e) {
@@ -270,17 +304,18 @@ public class FullScreenSizeActivity extends AppCompatActivity {
 
         pathtxt.setText(dirPath);
         titletxt.setText(imageName);
+        canceltxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
-        alertDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        alertDialog.show();
+        dialog.show();
+
 
     }
 
-//    private String formatchange(Long fileSizeInKB) {
-//
-//        return new DecimalFormat("#.##").format(fileSizeInKB);
-//
-//    }
 
     private void shareImages(String fileUri) {
 
@@ -293,18 +328,44 @@ public class FullScreenSizeActivity extends AppCompatActivity {
 
     private void deletimage(String path) {
 
-        File fdelete = new File(path);
-        if (fdelete.exists()) {
-            if (fdelete.delete()) {
-                this.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(path))));
-                Toast.makeText(this, "Successfully Delet", Toast.LENGTH_SHORT).show();
 
-            } else {
+        BottomSheetDialog dialog = new BottomSheetDialog(FullScreenSizeActivity.this, R.style.bottomsheetstle);
 
-                Toast.makeText(this, "delet not succesfully", Toast.LENGTH_SHORT).show();
+        View view = LayoutInflater.from(FullScreenSizeActivity.this).inflate(R.layout.delet_custom, (ConstraintLayout) findViewById(R.id.contstain));
+        deletbtn = view.findViewById(R.id.button5);
+        cancelbtn = view.findViewById(R.id.button4);
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        deletbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                File fdelete = new File(path);
+                if (fdelete.exists()) {
+                    if (fdelete.delete()) {
+                        FullScreenSizeActivity.this.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(path))));
+                        Toast.makeText(FullScreenSizeActivity.this, "Successfully Delet", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(FullScreenSizeActivity.this, MainActivity.class));
+
+                    } else {
+
+                        Toast.makeText(FullScreenSizeActivity.this, "delet not succesfully", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
             }
-        }
+        });
+
+        cancelbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+
+        dialog.setContentView(view);
+        dialog.show();
+
 
     }
 

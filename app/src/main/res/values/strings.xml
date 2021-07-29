@@ -19,10 +19,11 @@
     <string name="save">Save</string>
     <string name="filter1">filter</string>
     <string name="details">details</string>
-    <string name="delete">delete</string>
+    <string name="delete">Delete</string>
     <string name="share">Share</string>
     <string name="edit">Edit</string>
     <string name="like">Like</string>
+
     <!-- Base application theme. -->
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
@@ -33,8 +34,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <!--    <style name="SeekBar" parent="AppTheme">-->
-    <!--        <item name="colorControlActivated">@color/colorAccent</item>-->
-    <!--        <item name="colorControlNormal">@color/gray</item>-->
-    <!--    </style>-->
+   <style name="bottomsheetstle" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+
+       <item name="bottomSheetStyle">@style/Model</item>
+   </style>
+
+    <style name="Model" parent="Widget.Design.BottomSheet.Modal">
+
+         <item name="android:background">@drawable/sheet_background</item>
+    </style>
 </resources>

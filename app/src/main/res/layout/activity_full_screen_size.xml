@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
     tools:context=".Activity.FullScreenSizeActivity">
 
@@ -19,22 +20,38 @@
             android:id="@+id/recyclerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="50dp"
-            android:scaleType="centerCrop"
+            android:layout_marginTop="60dp"
             android:layout_marginBottom="50dp"
-            tools:srcCompat="@tools:sample/avatars"/>
+            android:contentDescription="@string/app_name"
+            android:scaleType="fitXY"
+            tools:srcCompat="@tools:sample/avatars" />
+
+
     </FrameLayout>
 
-
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="5dp"
+        android:src="@drawable/heart_ic"
+        app:layout_constraintBottom_toBottomOf="@+id/saveTextView"
+        app:layout_constraintEnd_toStartOf="@+id/saveTextView"
+        app:layout_constraintTop_toTopOf="@+id/saveTextView" />
 
     <TextView
         android:id="@+id/saveTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="10dp"
-        android:text="Save"
-        android:visibility="gone"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/image_background"
+        android:fontFamily="@font/reguler"
+        android:text="@string/save"
+        android:textColor="@color/textcolor_bg"
+        android:textSize="@dimen/textsize"
+        android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -42,19 +59,32 @@
         android:id="@+id/cancleImg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="10dp"
-        android:visibility="gone"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="15dp"
+        android:contentDescription="@string/app_name"
         android:src="@drawable/ic_baseline_cancel_24"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerview1"
         android:layout_width="match_parent"
         android:layout_height="90dp"
         android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:background="#FFFFFF"
         android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@+id/recyclerview12" />
@@ -63,19 +93,20 @@
         android:id="@+id/recyclerview12"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:background="#FFFFFF"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/framlayout" />
-
+        android:background="@drawable/selected_background"
+        app:layout_constraintBottom_toBottomOf="@+id/framlayout"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
-        app:itemTextColor="@color/selector_tab"
         app:itemIconTint="@color/selector_tab"
+        app:itemTextColor="@color/selector_tab"
         app:labelVisibilityMode="unlabeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:menu="@menu/images_option" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

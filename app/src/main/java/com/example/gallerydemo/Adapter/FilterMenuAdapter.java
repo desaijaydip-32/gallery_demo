@@ -20,12 +20,13 @@ public class FilterMenuAdapter extends RecyclerView.Adapter<FilterMenuAdapter.Cu
     Context context;
     int[] img_icon;
     String[] filtet_menu;
+    PostitonPass postitonpass;
 
-
-    public FilterMenuAdapter(Context context, int[] img_icon, String[] filtet_menu) {
+    public FilterMenuAdapter(Context context, int[] img_icon, String[] filtet_menu,PostitonPass postitonpass) {
         this.context = context;
         this.img_icon = img_icon;
         this.filtet_menu = filtet_menu;
+        this.postitonpass =postitonpass;
 
     }
 
@@ -46,7 +47,9 @@ public class FilterMenuAdapter extends RecyclerView.Adapter<FilterMenuAdapter.Cu
            @Override
            public void onClick(View v) {
 
-               Log.e("postion", String.valueOf(position));
+               postitonpass.sendPostiton(position);
+
+
            }
        });
 
@@ -70,7 +73,7 @@ public class FilterMenuAdapter extends RecyclerView.Adapter<FilterMenuAdapter.Cu
         }
     }
 
-    public interface PostitonSend {
+    public interface PostitonPass{
 
         public void sendPostiton(int pos);
     }
