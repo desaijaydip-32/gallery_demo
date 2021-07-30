@@ -23,6 +23,8 @@
     <string name="share">Share</string>
     <string name="edit">Edit</string>
     <string name="like">Like</string>
+    <string name="text">text</string>
+    <string name="crop" >crop</string>
 
     <!-- Base application theme. -->
 

@@ -43,6 +43,8 @@ public class FilterMenuAdapter extends RecyclerView.Adapter<FilterMenuAdapter.Cu
         holder.imageView.setImageResource(img_icon[position]);
         holder.name_text.setText(filtet_menu[position]);
 
+
+
        holder.itemView.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {

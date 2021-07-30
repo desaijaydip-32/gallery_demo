@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -34,39 +35,48 @@ public class EffectAdapter extends RecyclerView.Adapter<EffectAdapter.CustomFilt
     Context context;
     Bitmap[] filter_img;
     ImageView save_img;
+    String[] picName;
+    boolean clicked = true;
     SaveImageBitmap saveImageBitmap;
 
     public ArrayList<Model_images> al_images = new ArrayList<>();
 
 
-    public EffectAdapter(Context context, Bitmap[] filter_img, ImageView myBitmap,SaveImageBitmap saveImageBitmap ) {
+    public EffectAdapter(Context context, Bitmap[] filter_img, ImageView myBitmap, String[] picName, SaveImageBitmap saveImageBitmap) {
         this.context = context;
         this.filter_img = filter_img;
         this.save_img = myBitmap;
+        this.picName = picName;
         this.saveImageBitmap = saveImageBitmap;
-
     }
 
     @NonNull
     @Override
     public CustomFilter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.filter_img, parent, false);
+
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.filter_img, null, false);
         return new CustomFilter(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CustomFilter holder, int position) {
         holder.imageView.setImageBitmap(filter_img[position]);
+        holder.pickName.setText(picName[position]);
+
+        if (clicked) {
+            holder.imageView.setBackgroundResource(R.drawable.selected);
+        } else {
 
 
-
-        holder.imageView.setOnClickListener(new View.OnClickListener() {
-
+        }
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 save_img.setImageBitmap(filter_img[position]);
                 saveImageBitmap.saveImage(save_img);
+
+                notifyDataSetChanged();
 
 //                Intent intent = new Intent(context, FullScreenSizeActivity.class);
 //                intent.putExtra("Image", String.valueOf(save_img));
@@ -90,10 +100,6 @@ public class EffectAdapter extends RecyclerView.Adapter<EffectAdapter.CustomFilt
     }
 
 
-    public void addFavFolder(Bitmap bmap) {
-    }
-
-
     @Override
     public int getItemCount() {
         return filter_img.length;
@@ -101,11 +107,16 @@ public class EffectAdapter extends RecyclerView.Adapter<EffectAdapter.CustomFilt
 
 
     class CustomFilter extends RecyclerView.ViewHolder {
-        ImageView imageView;
+        ImageView imageView, select_img;
+        TextView pickName;
+
 
         public CustomFilter(@NonNull View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView3);
+            pickName = itemView.findViewById(R.id.textView2);
+
+            //  select_img = itemView.findViewById(R.id.imageView8);
         }
     }
 

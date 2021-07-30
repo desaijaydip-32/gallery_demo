@@ -22,7 +22,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.CustomViewHo
 
     Context context;
     ArrayList<VideoModel> videoArrayList;
-   // public OnItemClickListener onItemClickListener;
+
 
 
     public VideoAdapter(Context context, ArrayList<VideoModel> videoArrayList) {
