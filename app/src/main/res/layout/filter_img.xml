@@ -4,38 +4,117 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+    android:layout_margin="8dp"
+    android:padding="4dp"
+    tools:background="@android:color/black">
 
 
-     <LinearLayout
-         android:layout_width="match_parent"
-         android:layout_height="match_parent">
+    <ImageView
+        android:id="@+id/imgFilterView"
+        android:layout_width="40dp"
+        android:layout_height="50dp"
+        android:layout_margin="4dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:src="@drawable/ic_launcher_background" />
 
-         <ImageView
-             android:id="@+id/imageView3"
-             android:layout_width="50dp"
-             android:layout_height="60dp"
-             android:layout_marginLeft="3dp"
-             android:layout_marginTop="@dimen/imgview"
-             android:layout_marginRight="3dp"
-             android:layout_marginBottom="5dp"
-             android:padding="2sp"
-             android:scaleType="centerInside"
-             app:layout_constraintStart_toStartOf="parent"
-             app:layout_constraintTop_toTopOf="parent" />
-
-
-
-     </LinearLayout>
-
-<!--        <ImageView-->
-<!--            android:id="@+id/imageView8"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--           android:background="@drawable/logo_box"-->
-<!--            app:layout_constraintBottom_toBottomOf="@+id/imageView3"-->
-<!--            app:layout_constraintEnd_toEndOf="@+id/imageView3"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
+    <TextView
+        android:id="@+id/txtFilterName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textColor="@android:color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgFilterView"
+        tools:text="text" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+<!--<LinearLayout-->
+<!--    xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    android:orientation="vertical"-->
+<!--    android:layout_margin="10dp"-->
+<!--    android:id="@+id/linearLayout">-->
+
+
+
+<!--    <ImageView-->
+<!--        android:layout_width="40dp"-->
+<!--        android:layout_height="50dp"-->
+<!--        android:id="@+id/imageView"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:src="@drawable/ic_launcher_background"-->
+<!--        android:background="@drawable/selected"-->
+<!--        android:backgroundTint="@color/colorPrimary"-->
+<!--       />-->
+
+
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/category"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:layout_margin="10dp"-->
+<!--        android:text="Categories"/>-->
+
+<!--</LinearLayout>-->
+
+
+
+
+<!--&lt;!&ndash;<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"&ndash;&gt;-->
+<!--&lt;!&ndash;    xmlns:app="http://schemas.android.com/apk/res-auto"&ndash;&gt;-->
+<!--&lt;!&ndash;    xmlns:tools="http://schemas.android.com/tools"&ndash;&gt;-->
+<!--&lt;!&ndash;    android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;    android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;    android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">&ndash;&gt;-->
+
+<!--&lt;!&ndash;         <ImageView&ndash;&gt;-->
+<!--&lt;!&ndash;             android:id="@+id/imageView2"&ndash;&gt;-->
+<!--&lt;!&ndash;             android:layout_width="50dp"&ndash;&gt;-->
+<!--&lt;!&ndash;             android:layout_height="60dp"&ndash;&gt;-->
+<!--&lt;!&ndash;             android:layout_marginLeft="3dp"&ndash;&gt;-->
+<!--&lt;!&ndash;             android:layout_marginTop="@dimen/imgview"&ndash;&gt;-->
+<!--&lt;!&ndash;             android:layout_marginRight="3dp"&ndash;&gt;-->
+<!--&lt;!&ndash;             android:layout_marginBottom="5dp"&ndash;&gt;-->
+<!--&lt;!&ndash;             android:padding="2sp"&ndash;&gt;-->
+<!--&lt;!&ndash;             android:adjustViewBounds="true"&ndash;&gt;-->
+<!--&lt;!&ndash;             android:cropToPadding="true"&ndash;&gt;-->
+<!--&lt;!&ndash;             android:background="@drawable/tab_bg"&ndash;&gt;-->
+<!--&lt;!&ndash;             android:src="@drawable/ic_launcher_background"&ndash;&gt;-->
+<!--&lt;!&ndash;             android:scaleType="centerInside"&ndash;&gt;-->
+<!--&lt;!&ndash;             app:layout_constraintStart_toStartOf="parent"&ndash;&gt;-->
+<!--&lt;!&ndash;             app:layout_constraintTop_toTopOf="parent" />&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <TextView&ndash;&gt;-->
+<!--&lt;!&ndash;        android:id="@+id/textView2"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_width="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:text="Text"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:textSize="10dp"&ndash;&gt;-->
+<!--&lt;!&ndash;        app:layout_constraintEnd_toEndOf="@+id/imageView2"&ndash;&gt;-->
+<!--&lt;!&ndash;        app:layout_constraintStart_toStartOf="@+id/imageView2"&ndash;&gt;-->
+<!--&lt;!&ndash;        app:layout_constraintTop_toBottomOf="@+id/imageView2" />&ndash;&gt;-->
+
+
+<!--&lt;!&ndash;    &lt;!&ndash;        <ImageView&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;            android:id="@+id/imageView8"&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;            android:layout_width="wrap_content"&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;           android:background="@drawable/logo_box"&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;            app:layout_constraintBottom_toBottomOf="@+id/imageView3"&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;            app:layout_constraintEnd_toEndOf="@+id/imageView3"&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;            app:layout_constraintStart_toStartOf="parent"&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;&lt;!&ndash;            app:layout_constraintTop_toTopOf="parent" />&ndash;&gt;&ndash;&gt;-->
+
+<!--&lt;!&ndash;</androidx.constraintlayout.widget.ConstraintLayout>&ndash;&gt;-->
+
+

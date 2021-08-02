@@ -30,7 +30,6 @@ public class PhotosActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         recyclerView.setAdapter(adapter);
-
         adapter.notifyDataSetChanged();
 
     }

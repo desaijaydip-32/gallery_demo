@@ -22,6 +22,7 @@ public class FilterMenuAdapter extends RecyclerView.Adapter<FilterMenuAdapter.Cu
     String[] filtet_menu;
     PostitonPass postitonpass;
 
+
     public FilterMenuAdapter(Context context, int[] img_icon, String[] filtet_menu,PostitonPass postitonpass) {
         this.context = context;
         this.img_icon = img_icon;

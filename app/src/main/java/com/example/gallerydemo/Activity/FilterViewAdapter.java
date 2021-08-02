@@ -1,20 +1,14 @@
-package com.example.gallerydemo.Adapter;
-
+package com.example.gallerydemo.Activity;
 
 import android.content.Context;
-
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
-
-
 import android.graphics.BitmapFactory;
-
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,27 +17,29 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.gallerydemo.FilterListener;
 import com.example.gallerydemo.R;
 
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import ja.burhanrashid52.photoeditor.PhotoFilter;
 
-public class EffectAdapter extends RecyclerView.Adapter<EffectAdapter.ViewHolder> {
+public class FilterViewAdapter   extends RecyclerView.Adapter<FilterViewAdapter.ViewHolder>{
 
-
-    private FilterListener mFilterListener;
+     FilterListener mFilterListener;
     private List<Pair<String, PhotoFilter>> mPairList = new ArrayList<>();
-    public FilterViewAdapter(FilterListener filterListener) {
+
+    public FilterViewAdapter(EditImageActivity filterListener) {
         mFilterListener = filterListener;
         setupFilters();
+
     }
+
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.filter_img, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_filter_view, parent, false);
         return new ViewHolder(view);
     }
 
@@ -85,7 +81,7 @@ public class EffectAdapter extends RecyclerView.Adapter<EffectAdapter.ViewHolder
             return BitmapFactory.decodeStream(istr);
         } catch (IOException e) {
             e.printStackTrace();
-            return null;
+             return null;
         }
     }
 
@@ -115,98 +111,4 @@ public class EffectAdapter extends RecyclerView.Adapter<EffectAdapter.ViewHolder
         mPairList.add(new Pair<>("filters/flip_vertical.png", PhotoFilter.FLIP_VERTICAL));
         mPairList.add(new Pair<>("filters/rotate.png", PhotoFilter.ROTATE));
     }
-
-
-//    Context context;
-//    Bitmap[] filter_img;
-//    ImageView save_img;
-//    String[] picName;
-//    int oldPos;
-//    SaveImageBitmap saveImageBitmap;
-//    int selectedPos = RecyclerView.NO_POSITION;
-//
-//
-//    public EffectAdapter(Context context, Bitmap[] filter_img, ImageView myBitmap, String[] picName, SaveImageBitmap saveImageBitmap) {
-//
-//        this.context = context;
-//        this.filter_img = filter_img;
-//        this.save_img = myBitmap;
-//        this.picName = picName;
-//        this.saveImageBitmap = saveImageBitmap;
-//
-//    }
-//
-//    @NonNull
-//    @Override
-//    public CustomFilter onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.filter_img, null, false);
-//        return new CustomFilter(view);
-//    }
-//
-//    @Override
-//    public void onBindViewHolder(@NonNull CustomFilter holder, int position) {
-//        holder.imageView.setImageBitmap(filter_img[position]);
-//        holder.pickName.setText(picName[position]);
-//
-//
-//        holder.imageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                oldPos = selectedPos;
-//                notifyItemChanged(selectedPos);
-//
-//
-//                DrawableCompat.setTint(holder.imageView.getDrawable(), ContextCompat.getColor(context, R.color.colororange));  //change color of selected position
-//                DrawableCompat.setTint(holder.imageView.getBackground(), ContextCompat.getColor(context, R.color.colororange));  //change border color of selected position
-//
-//                Toast.makeText(context, "" + oldPos, Toast.LENGTH_SHORT).show();
-//
-//                selectedPos = getPosition();
-//                if (selectedPos == position) {
-//
-//                    holder.imageView.setSelected(true);
-//                } else {
-//                    holder.imageView.setSelected(false);
-//                }
-//            }
-//
-//            private int getPosition() {
-//                return position;
-//            }
-//
-//
-//        });
-//
-//
-//    }
-//
-//
-//    @Override
-//    public int getItemCount() {
-//        return filter_img.length;
-//    }
-//
-//    class CustomFilter extends RecyclerView.ViewHolder {
-//        ImageView imageView;
-//        TextView pickName;
-//        LinearLayout linearLayout;
-//        RelativeLayout relativeLayout;
-//
-//
-//        public CustomFilter(@NonNull View itemView) {
-//            super(itemView);
-//
-//            imageView = itemView.findViewById(R.id.imageView);
-//            pickName = itemView.findViewById(R.id.category);
-//            linearLayout = (LinearLayout) itemView.findViewById(R.id.linearLayout);
-//
-//
-//        }
-//    }
-//
-//
-//    public interface SaveImageBitmap {
-//        public void saveImage(ImageView bitmap);
-//    }
-
 }

@@ -2,11 +2,9 @@ package com.example.gallerydemo.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,10 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
-import com.example.gallerydemo.Activity.FullScreenSizeActivity;
-import com.example.gallerydemo.Fragment.ImageFragment;
-import com.example.gallerydemo.Model.Model_images;
+import com.example.gallerydemo.Activity.EditImageActivity1;
 import com.example.gallerydemo.R;
 
 import java.util.ArrayList;
@@ -58,7 +53,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHoldercust
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, FullScreenSizeActivity.class);
+                Intent intent = new Intent(context, EditImageActivity1.class);
                 intent.putExtra("imgpath", al_menu.get(position));
                 context.startActivity(intent);
             }

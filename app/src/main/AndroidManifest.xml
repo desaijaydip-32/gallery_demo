@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.GalleryDemo">
-        <activity android:name=".Activity.FullScreenSizeActivity"></activity>
+        <activity android:name=".Activity.EditImageActivity"></activity>
+        <activity android:name=".Activity.EditImageActivity1" />
         <activity android:name=".Activity.VideoPlayActivity" />
         <activity android:name=".Activity.PhotosActivity" />
         <activity android:name=".Activity.MainActivity">

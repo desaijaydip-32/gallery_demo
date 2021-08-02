@@ -24,7 +24,7 @@
     <string name="edit">Edit</string>
     <string name="like">Like</string>
     <string name="text">text</string>
-    <string name="crop" >crop</string>
+    <string name="crop">crop</string>
 
     <!-- Base application theme. -->
 
@@ -36,13 +36,13 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-   <style name="bottomsheetstle" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+    <style name="bottomsheetstle" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
 
-       <item name="bottomSheetStyle">@style/Model</item>
-   </style>
+        <item name="bottomSheetStyle">@style/Model</item>
+    </style>
 
     <style name="Model" parent="Widget.Design.BottomSheet.Modal">
 
-         <item name="android:background">@drawable/sheet_background</item>
+        <item name="android:background">@drawable/sheet_background</item>
     </style>
 </resources>
