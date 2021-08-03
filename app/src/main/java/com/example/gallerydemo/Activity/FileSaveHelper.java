@@ -37,7 +37,6 @@ public class FileSaveHelper implements LifecycleObserver {
         }
     };
 
-
     public FileSaveHelper(ContentResolver contentResolver) {
         mContentResolver = contentResolver;
         executor = Executors.newSingleThreadExecutor();
@@ -155,7 +154,6 @@ public class FileSaveHelper implements LifecycleObserver {
     }
 
     public interface OnFileCreateResult {
-
         void onFileCreateResult(boolean created, String filePath, String error, Uri Uri);
     }
 

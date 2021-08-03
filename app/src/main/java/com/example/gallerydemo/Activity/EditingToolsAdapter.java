@@ -30,7 +30,9 @@ public class EditingToolsAdapter extends RecyclerView.Adapter<EditingToolsAdapte
         mToolList.add(new ToolModel("Sticker", R.drawable.ic_sticker, ToolType.STICKER));
     }
 
-    public interface OnItemSelected {
+
+    public interface OnItemSelected
+    {
         void onToolSelected(ToolType toolType);
     }
 
@@ -70,6 +72,9 @@ public class EditingToolsAdapter extends RecyclerView.Adapter<EditingToolsAdapte
     class ViewHolder extends RecyclerView.ViewHolder {
         ImageView imgToolIcon;
         TextView txtTool;
+
+
+
 
         ViewHolder(View itemView) {
             super(itemView);

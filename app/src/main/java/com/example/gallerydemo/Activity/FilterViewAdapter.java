@@ -29,10 +29,9 @@ public class FilterViewAdapter   extends RecyclerView.Adapter<FilterViewAdapter.
      FilterListener mFilterListener;
     private List<Pair<String, PhotoFilter>> mPairList = new ArrayList<>();
 
-    public FilterViewAdapter(EditImageActivity filterListener) {
+    public FilterViewAdapter(FilterListener filterListener) {
         mFilterListener = filterListener;
         setupFilters();
-
     }
 
 

@@ -1,66 +1,149 @@
 package com.example.gallerydemo.Fragment;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.example.gallerydemo.R;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link StickerBSFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class StickerBSFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class StickerBSFragment  extends BottomSheetDialogFragment {
 
     public StickerBSFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment StickerBSFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static StickerBSFragment newInstance(String param1, String param2) {
-        StickerBSFragment fragment = new StickerBSFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+
+    private StickerListener mStickerListener;
+
+    public void setStickerListener(StickerListener stickerListener) {
+        mStickerListener = stickerListener;
     }
+    public interface StickerListener {
+        void onStickerClick(Bitmap bitmap);
+    }
+
+
+    private BottomSheetBehavior.BottomSheetCallback mBottomSheetBehaviorCallback = new BottomSheetBehavior.BottomSheetCallback() {
+
+        @Override
+        public void onStateChanged(@NonNull View bottomSheet, int newState) {
+            if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                dismiss();
+            }
+        }
+        @Override
+        public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+        }
+    };
+
+    @SuppressLint("RestrictedApi")
+    @Override
+    public void setupDialog(Dialog dialog, int style) {
+        super.setupDialog(dialog, style);
+        View contentView = View.inflate(getContext(), R.layout.fragment_bottom_sticker_emoji_dialog, null);
+        dialog.setContentView(contentView);
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) ((View) contentView.getParent()).getLayoutParams();
+        CoordinatorLayout.Behavior behavior = params.getBehavior();
+
+        if (behavior != null && behavior instanceof BottomSheetBehavior) {
+            ((BottomSheetBehavior) behavior).setBottomSheetCallback(mBottomSheetBehaviorCallback);
+        }
+        ((View) contentView.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        RecyclerView rvEmoji = contentView.findViewById(R.id.rvEmoji);
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 3);
+        rvEmoji.setLayoutManager(gridLayoutManager);
+        StickerAdapter stickerAdapter = new StickerAdapter();
+        rvEmoji.setAdapter(stickerAdapter);
+    }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+
+    }
+
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                             Bundle savedInstanceState) {
+//        // Inflate the layout for this fragment
+//        return inflater.inflate(R.layout.fragment_sticker_b_s, container, false);
+//    }
+
+    public class StickerAdapter extends RecyclerView.Adapter<StickerAdapter.ViewHolder> {
+
+        int[] stickerList = new int[]{R.drawable.aa, R.drawable.bb};
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_sticker, parent, false);
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            holder.imgSticker.setImageResource(stickerList[position]);
+        }
+
+        @Override
+        public int getItemCount() {
+            return stickerList.length;
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder {
+            ImageView imgSticker;
+
+            ViewHolder(View itemView) {
+                super(itemView);
+                imgSticker = itemView.findViewById(R.id.imgSticker);
+
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mStickerListener != null) {
+                            mStickerListener.onStickerClick(
+                                    BitmapFactory.decodeResource(getResources(),
+                                            stickerList[getLayoutPosition()]));
+                        }
+                        dismiss();
+                    }
+                });
+            }
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sticker_b_s, container, false);
+    private String convertEmoji(String emoji) {
+        String returnedEmoji = "";
+        try {
+            int convertEmojiToInt = Integer.parseInt(emoji.substring(2), 16);
+            returnedEmoji = getEmojiByUnicode(convertEmojiToInt);
+        } catch (NumberFormatException e) {
+            returnedEmoji = "";
+        }
+        return returnedEmoji;
     }
+
+    private String getEmojiByUnicode(int unicode) {
+        return new String(Character.toChars(unicode));
+    }
+
+
+
 }

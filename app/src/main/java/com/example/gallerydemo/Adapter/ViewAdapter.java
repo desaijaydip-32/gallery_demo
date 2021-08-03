@@ -13,7 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.gallerydemo.Activity.EditImageActivity1;
+import com.example.gallerydemo.Activity.EditImageActivity;
+import com.example.gallerydemo.Activity.MainActivity2;
 import com.example.gallerydemo.R;
 
 import java.util.ArrayList;
@@ -53,7 +54,7 @@ public class ViewAdapter extends RecyclerView.Adapter<ViewAdapter.ViewHoldercust
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, EditImageActivity1.class);
+                Intent intent = new Intent(context, MainActivity2.class);
                 intent.putExtra("imgpath", al_menu.get(position));
                 context.startActivity(intent);
             }

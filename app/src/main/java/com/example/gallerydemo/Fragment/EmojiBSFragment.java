@@ -1,66 +1,161 @@
 package com.example.gallerydemo.Fragment;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.gallerydemo.R;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link EmojiBSFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class EmojiBSFragment extends Fragment {
+import java.util.ArrayList;
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class EmojiBSFragment extends BottomSheetDialogFragment {
+
+
 
     public EmojiBSFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment EmojiBSFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static EmojiBSFragment newInstance(String param1, String param2) {
-        EmojiBSFragment fragment = new EmojiBSFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
+    private EmojiListener mEmojiListener;
+    public interface EmojiListener {
+        void onEmojiClick(String emojiUnicode);
     }
 
+
+    private BottomSheetBehavior.BottomSheetCallback mBottomSheetBehaviorCallback = new BottomSheetBehavior.BottomSheetCallback() {
+
+        @Override
+        public void onStateChanged(@NonNull View bottomSheet, int newState) {
+            if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                dismiss();
+            }
+
+        }
+
+        @Override
+        public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+        }
+    };
+
+
+    @SuppressLint("RestrictedApi")
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+    public void setupDialog(Dialog dialog, int style) {
+        super.setupDialog(dialog, style);
+        View contentView = View.inflate(getContext(), R.layout.fragment_bottom_sticker_emoji_dialog, null);
+        dialog.setContentView(contentView);
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) ((View) contentView.getParent()).getLayoutParams();
+        CoordinatorLayout.Behavior behavior = params.getBehavior();
+
+        if (behavior != null && behavior instanceof BottomSheetBehavior) {
+            ((BottomSheetBehavior) behavior).setBottomSheetCallback(mBottomSheetBehaviorCallback);
+        }
+        ((View) contentView.getParent()).setBackgroundColor(getResources().getColor(android.R.color.transparent));
+        RecyclerView rvEmoji = contentView.findViewById(R.id.rvEmoji);
+
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(), 5);
+        rvEmoji.setLayoutManager(gridLayoutManager);
+        EmojiAdapter emojiAdapter = new EmojiAdapter();
+        rvEmoji.setAdapter(emojiAdapter);
+    }
+
+    public void setEmojiListener(EmojiListener emojiListener) {
+        mEmojiListener = emojiListener;
+    }
+
+//    @Override
+//    public void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//
+//    }
+//
+//    @Override
+//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+//                             Bundle savedInstanceState) {
+//
+//        return inflater.inflate(R.layout.fragment_emoji_b_s, container, false);
+//    }
+
+
+
+
+    public class EmojiAdapter extends RecyclerView.Adapter<EmojiAdapter.ViewHolder> {
+
+        ArrayList<String> emojisList = getEmojis(getActivity());
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_emoji, parent, false);
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            holder.txtEmoji.setText(emojisList.get(position));
+        }
+
+        @Override
+        public int getItemCount() {
+            return emojisList.size();
+        }
+
+        class ViewHolder extends RecyclerView.ViewHolder {
+            TextView txtEmoji;
+
+            ViewHolder(View itemView) {
+                super(itemView);
+
+                txtEmoji = itemView.findViewById(R.id.txtEmoji);
+
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mEmojiListener != null) {
+                            mEmojiListener.onEmojiClick(emojisList.get(getLayoutPosition()));
+                        }
+                        dismiss();
+                    }
+                });
+            }
         }
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_emoji_b_s, container, false);
+
+    public static ArrayList<String> getEmojis(Context context) {
+        ArrayList<String> convertedEmojiList = new ArrayList<>();
+        String[] emojiList = context.getResources().getStringArray(R.array.photo_editor_emoji);
+
+
+        for (String emojiUnicode : emojiList) {
+            convertedEmojiList.add(convertEmoji(emojiUnicode));
+        }
+        return convertedEmojiList;
     }
+
+    private static String convertEmoji(String emoji) {
+        String returnedEmoji;
+        try {
+            int convertEmojiToInt = Integer.parseInt(emoji.substring(2), 16);
+            returnedEmoji = new String(Character.toChars(convertEmojiToInt));
+        } catch (NumberFormatException e) {
+            returnedEmoji = "";
+        }
+        return returnedEmoji;
+    }
+
 }
