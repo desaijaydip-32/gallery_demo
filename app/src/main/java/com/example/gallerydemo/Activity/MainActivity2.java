@@ -7,9 +7,11 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.ChangeBounds;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -24,6 +26,8 @@ import android.view.View;
 import android.view.animation.AnticipateOvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import ja.burhanrashid52.photoeditor.PhotoFilter;
 import ja.burhanrashid52.photoeditor.shape.ShapeBuilder;
 
@@ -37,10 +41,14 @@ import com.example.gallerydemo.Fragment.StickerBSFragment;
 import com.example.gallerydemo.Fragment.TextEditorDialogFragment;
 import com.example.gallerydemo.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
 import androidx.transition.TransitionManager;
+
 import java.io.File;
 import java.io.IOException;
+
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+
 import ja.burhanrashid52.photoeditor.OnPhotoEditorListener;
 import ja.burhanrashid52.photoeditor.PhotoEditor;
 import ja.burhanrashid52.photoeditor.PhotoEditorView;
@@ -51,12 +59,11 @@ import ja.burhanrashid52.photoeditor.shape.ShapeType;
 
 import static com.example.gallerydemo.Activity.FileSaveHelper.isSdkHigherThan28;
 
-public class MainActivity2 extends BaseActivity implements  OnPhotoEditorListener,  View.OnClickListener,
+public class MainActivity2 extends BaseActivity implements OnPhotoEditorListener, View.OnClickListener,
         PropertiesBSFragment.Properties,
         ShapeBSFragment.Properties,
         EmojiBSFragment.EmojiListener,
         StickerBSFragment.StickerListener, EditingToolsAdapter.OnItemSelected, FilterListener {
-
 
 
     String path1;
@@ -64,11 +71,11 @@ public class MainActivity2 extends BaseActivity implements  OnPhotoEditorListene
     public static final String FILE_PROVIDER_AUTHORITY = "com.burhanrashid52.photoeditor.fileprovider";
     private static final int CAMERA_REQUEST = 52;
     private static final int PICK_REQUEST = 53;
+
     public static final String ACTION_NEXTGEN_EDIT = "action_nextgen_edit";
     public static final String PINCH_TEXT_SCALABLE_INTENT_KEY = "PINCH_TEXT_SCALABLE";
 
     PhotoEditor mPhotoEditor;
-
     PhotoEditorView photoEditorView;
     private PropertiesBSFragment mPropertiesBSFragment;
     private ShapeBSFragment mShapeBSFragment;
@@ -77,6 +84,7 @@ public class MainActivity2 extends BaseActivity implements  OnPhotoEditorListene
     private StickerBSFragment mStickerBSFragment;
     private TextView mTxtCurrentTool;
     private Typeface mWonderFont;
+
     private RecyclerView mRvTools, mRvFilters;
     private final EditingToolsAdapter mEditingToolsAdapter = new EditingToolsAdapter(this);
     private final FilterViewAdapter mFilterViewAdapter = new FilterViewAdapter(this);
@@ -86,14 +94,12 @@ public class MainActivity2 extends BaseActivity implements  OnPhotoEditorListene
 
 
     private FileSaveHelper mSaveFileHelper;
-
     PhotoEditorView mPhotoEditorView;
-    ImageView mImagview;
+
 
     @Nullable
     @VisibleForTesting
-    Uri mSaveImageUri;
-    //  boolean pinchTextScalable=  getIntent().getBooleanExtra(PINCH_TEXT_SCALABLE_INTENT_KEY, true);;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,17 +108,31 @@ public class MainActivity2 extends BaseActivity implements  OnPhotoEditorListene
         setContentView(R.layout.activity_main2);
 
         initViews();
-        mWonderFont = Typeface.createFromAsset(getAssets(), "beyond_wonderland.ttf");
 
+        mWonderFont = Typeface.createFromAsset(getAssets(), "beyond_wonderland.ttf");
         path1 = getIntent().getStringExtra("imgpath");
         photoEditorView = findViewById(R.id.photoEditorView);
         photoEditorView.getSource().setImageURI(Uri.parse(path1));
 
+        Typeface mTextRobotoTf = ResourcesCompat.getFont(this, R.font.regulars);
 
-        mPhotoEditor = new PhotoEditor.Builder(MainActivity2.this, photoEditorView)
+
+        mPhotoEditor = new PhotoEditor.Builder(this, photoEditorView)
                 .setPinchTextScalable(true)
                 .setClipSourceImage(true)
+                .setDefaultTextTypeface(mTextRobotoTf)
                 .build();
+
+//        boolean pinchTextScalable = getIntent().getBooleanExtra(PINCH_TEXT_SCALABLE_INTENT_KEY, true);
+       // Typeface mTextRobotoTf = ResourcesCompat.getFont(this, R.font.regulars);
+//        Typeface mEmojiTypeFace = Typeface.createFromAsset(getAssets(), "emojione-android.ttf");
+//
+//        mPhotoEditor = new PhotoEditor.Builder(MainActivity2.this, photoEditorView)
+//                .setPinchTextScalable(pinchTextScalable)
+//                .setDefaultTextTypeface(mTextRobotoTf).
+//                        setDefaultEmojiTypeface(mEmojiTypeFace)
+//
+//                .build();
 
         mPhotoEditor.setOnPhotoEditorListener(this);
 
@@ -133,7 +153,7 @@ public class MainActivity2 extends BaseActivity implements  OnPhotoEditorListene
 ////                .setPinchTextScalable(pinchTextScalable)
 ////                .build();
 
-     //   mPhotoEditorView.getSource().setImageResource(R.drawable.paris_tower);
+        // mPhotoEditorView.getSource().setImageResource(R.drawable.paris_tower);
 
         mSaveFileHelper = new FileSaveHelper(this);
 
@@ -147,6 +167,7 @@ public class MainActivity2 extends BaseActivity implements  OnPhotoEditorListene
         ImageView imgSave;
         ImageView imgClose;
         ImageView imgShare;
+        ImageView imgdelet;
 
         mTxtCurrentTool = findViewById(R.id.txtCurrentTool);
         mRvTools = findViewById(R.id.rvConstraintTools);
@@ -154,12 +175,12 @@ public class MainActivity2 extends BaseActivity implements  OnPhotoEditorListene
         mRootView = findViewById(R.id.rootView);
 
 
-
         LinearLayoutManager llmTools = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
 
         mRvTools.setLayoutManager(llmTools);
         mRvTools.setAdapter(mEditingToolsAdapter);
         mEditingToolsAdapter.notifyDataSetChanged();
+
 
         LinearLayoutManager llmFilters = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         mRvFilters.setLayoutManager(llmFilters);
@@ -173,11 +194,11 @@ public class MainActivity2 extends BaseActivity implements  OnPhotoEditorListene
         imgRedo = findViewById(R.id.imgRedo);
         imgRedo.setOnClickListener(this);
 
-        imgCamera = findViewById(R.id.imgCamera);
-        imgCamera.setOnClickListener(this);
-
-        imgGallery = findViewById(R.id.imgGallery);
-        imgGallery.setOnClickListener(this);
+//        imgCamera = findViewById(R.id.imgCamera);
+//        imgCamera.setOnClickListener(this);
+//
+//        imgGallery = findViewById(R.id.imgGallery);
+//        imgGallery.setOnClickListener(this);
 
         imgSave = findViewById(R.id.imgSave);
         imgSave.setOnClickListener(this);
@@ -187,7 +208,18 @@ public class MainActivity2 extends BaseActivity implements  OnPhotoEditorListene
 
         imgShare = findViewById(R.id.imgShare);
         imgShare.setOnClickListener(this);
+
+        imgdelet = findViewById(R.id.imgdelet);
+        imgdelet.setOnClickListener(this);
+//        imgdelet.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                deletImg(path1);
+//            }
+//        });
+
     }
+
     @SuppressLint("NonConstantResourceId")
     @Override
 
@@ -210,37 +242,54 @@ public class MainActivity2 extends BaseActivity implements  OnPhotoEditorListene
                 onBackPressed();
                 break;
             case R.id.imgShare:
-                shareImage();
+                shareImage(path1);
                 break;
 
-            case R.id.imgCamera:
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+            case R.id.imgdelet:
+                deletImg(path1);
                 break;
 
-            case R.id.imgGallery:
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_REQUEST);
-                break;
+
+//
+//            case R.id.imgCamera:
+//                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+//                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+//                break;
+//
+//            case R.id.imgGallery:
+//                Intent intent = new Intent();
+//                intent.setType("image/*");
+//                intent.setAction(Intent.ACTION_GET_CONTENT);
+//                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_REQUEST);
+//                break;
         }
     }
 
+    private void deletImg(String path1) {
 
-    private void shareImage() {
-       if (mSaveImageUri == null) {
-            showSnackbar(getString(R.string.msg_save_image_to_share));
-            return;
-        }
+        File fdelete = new File(path1);
+                if (fdelete.exists()) {
+                    if (fdelete.delete()) {
+                        MainActivity2.this.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(new File(path1))));
+                        Toast.makeText(MainActivity2.this, "Successfully Delet", Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(MainActivity2.this, MainActivity.class));
 
-        Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.setType("image/*");
-        intent.putExtra(Intent.EXTRA_STREAM, buildFileProviderUri(mSaveImageUri));
-        startActivity(Intent.createChooser(intent, getString(R.string.msg_share_image)));
+                    } else {
+                        Toast.makeText(MainActivity2.this, "delet not succesfully", Toast.LENGTH_SHORT).show();
+                    }
+                }
+    }
 
-        }
 
+    private void shareImage(String path1) {
+
+        Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+        Uri imageUri = Uri.parse(path1);
+        sharingIntent.setType("image/*");
+        sharingIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
+        startActivity(sharingIntent);
+
+    }
 
     private Uri buildFileProviderUri(@NonNull Uri uri) {
         return FileProvider.getUriForFile(this,
@@ -249,15 +298,16 @@ public class MainActivity2 extends BaseActivity implements  OnPhotoEditorListene
     }
 
 
-    private void saveImage()
-    {
-        final String fileName =path1;
+    private void saveImage() {
+        final String fileName = path1;
 
-               // System.currentTimeMillis() + ".png";
+        // System.currentTimeMillis() + ".png";
+
         final boolean hasStoragePermission =
                 ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) == PERMISSION_GRANTED;
         if (hasStoragePermission || isSdkHigherThan28()) {
             showLoading("Saving...");
+
             mSaveFileHelper.createFile(fileName, (fileCreated, filePath, error, uri) -> {
                 if (fileCreated) {
                     SaveSettings saveSettings = new SaveSettings.Builder()
@@ -271,8 +321,9 @@ public class MainActivity2 extends BaseActivity implements  OnPhotoEditorListene
                             mSaveFileHelper.notifyThatFileIsNowPubliclyAvailable(getContentResolver());
                             hideLoading();
                             showSnackbar("Image Saved Successfully");
-                          //  mSaveImageUri = uri;
-                            //mPhotoEditorView.getSource().setImageURI(mSaveImageUri);
+
+                            //  mSaveImageUri = uri;
+                            // mPhotoEditorView.getSource().setImageURI(mSaveImageUri);
                         }
 
                         @Override
@@ -318,9 +369,11 @@ public class MainActivity2 extends BaseActivity implements  OnPhotoEditorListene
     }
 
     @Override
-    public void onEditTextChangeListener(final View rootView, String text, int colorCode) {
+    public void onEditTextChangeListener( View rootView, String text, int colorCode) {
+
         TextEditorDialogFragment textEditorDialogFragment =
                 TextEditorDialogFragment.show(this, text, colorCode);
+
         textEditorDialogFragment.setOnTextEditorListener((inputText, newColorCode) -> {
             final TextStyleBuilder styleBuilder = new TextStyleBuilder();
             styleBuilder.withTextColor(newColorCode);
@@ -420,11 +473,12 @@ public class MainActivity2 extends BaseActivity implements  OnPhotoEditorListene
                 mPhotoEditor.setBrushDrawingMode(true);
                 mShapeBuilder = new ShapeBuilder();
                 mPhotoEditor.setShape(mShapeBuilder);
-                mTxtCurrentTool.setText("shapw");
+                mTxtCurrentTool.setText("shape");
                 showBottomSheetDialogFragment(mShapeBSFragment);
                 break;
             case TEXT:
-                TextEditorDialogFragment textEditorDialogFragment = TextEditorDialogFragment.show(this);
+
+                TextEditorDialogFragment textEditorDialogFragment = TextEditorDialogFragment.show(MainActivity2.this);
                 textEditorDialogFragment.setOnTextEditorListener((inputText, colorCode) -> {
                     final TextStyleBuilder styleBuilder = new TextStyleBuilder();
                     styleBuilder.withTextColor(colorCode);
@@ -487,13 +541,16 @@ public class MainActivity2 extends BaseActivity implements  OnPhotoEditorListene
         if (mIsFilterVisible) {
             showFilter(false);
             mTxtCurrentTool.setText(R.string.app_name);
+            mFilterViewAdapter.notifyDataSetChanged();
+            mEditingToolsAdapter.notifyDataSetChanged();
+
         } else if (!mPhotoEditor.isCacheEmpty()) {
+
             showSaveDialog();
         } else {
             super.onBackPressed();
         }
     }
-
 
 
 }

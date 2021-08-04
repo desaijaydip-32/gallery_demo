@@ -29,7 +29,8 @@ public class FileSaveHelper implements LifecycleObserver {
     private OnFileCreateResult resultListener;
 
     private final Observer<FileMeta> observer = fileMeta -> {
-        if (resultListener != null) {
+        if (resultListener != null)
+        {
             resultListener.onFileCreateResult(fileMeta.isCreated,
                     fileMeta.filePath,
                     fileMeta.error,
@@ -71,16 +72,22 @@ public class FileSaveHelper implements LifecycleObserver {
             Cursor cursor = null;
             String filePath;
             try {
+
                 final ContentValues newImageDetails = new ContentValues();
                 Uri imageCollection = buildUriCollection(newImageDetails);
                 final Uri editedImageUri = getEditedImageUri(fileNameToSave, newImageDetails, imageCollection);
                 filePath = getFilePath(cursor, editedImageUri);
                 updateResult(true, filePath, null, editedImageUri, newImageDetails);
-            } catch (final Exception ex) {
+
+            }
+            catch (final Exception ex)
+            {
                 ex.printStackTrace();
                 updateResult(false, null, ex.getMessage(), null, null);
-            } finally {
-                if (cursor != null) {
+            } finally
+            {
+                if (cursor != null)
+                {
                     cursor.close();
                 }
             }
@@ -153,11 +160,13 @@ public class FileSaveHelper implements LifecycleObserver {
         }
     }
 
-    public interface OnFileCreateResult {
+    public interface OnFileCreateResult
+    {
         void onFileCreateResult(boolean created, String filePath, String error, Uri Uri);
     }
 
-    private void updateResult(boolean result, String filePath, String error, Uri uri, ContentValues newImageDetails) {
+    private void updateResult(boolean result, String filePath, String error, Uri uri, ContentValues newImageDetails)
+    {
         fileCreatedResult.postValue(new FileMeta(result, filePath, uri, error, newImageDetails));
     }
 }

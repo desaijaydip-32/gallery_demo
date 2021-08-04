@@ -26,7 +26,6 @@ public class ShapeBSFragment  extends BottomSheetDialogFragment implements SeekB
 
     public ShapeBSFragment() {
 
-        // Required empty public constructor
     }
 
     private Properties mProperties;
@@ -45,13 +44,12 @@ public class ShapeBSFragment  extends BottomSheetDialogFragment implements SeekB
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         return inflater.inflate(R.layout.fragment_bottom_shapes_dialog, container, false);
     }
 
@@ -65,14 +63,17 @@ public class ShapeBSFragment  extends BottomSheetDialogFragment implements SeekB
         RadioGroup shapeGroup = view.findViewById(R.id.shapeRadioGroup);
 
 
-        shapeGroup.setOnCheckedChangeListener((group, checkedId) -> {
+        shapeGroup.setOnCheckedChangeListener((group, checkedId) ->
+        {
             if (checkedId == R.id.lineRadioButton) {
                 mProperties.onShapePicked(ShapeType.LINE);
             } else if (checkedId == R.id.ovalRadioButton) {
                 mProperties.onShapePicked(ShapeType.OVAL);
-            } else if (checkedId == R.id.rectRadioButton) {
+            } else if (checkedId == R.id.rectRadioButton)
+            {
                 mProperties.onShapePicked(ShapeType.RECTANGLE);
-            } else {
+            } else
+                {
                 mProperties.onShapePicked(ShapeType.BRUSH);
             }
         });
@@ -114,12 +115,14 @@ public class ShapeBSFragment  extends BottomSheetDialogFragment implements SeekB
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
+
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
-    }
 
     }
+
+}
 
 

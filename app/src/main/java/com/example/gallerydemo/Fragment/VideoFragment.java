@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -51,12 +52,12 @@ public class VideoFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)
+    {
 
         View view = inflater.inflate(R.layout.fragment_video2, container, false);
         recyclerView = view.findViewById(R.id.recyclerview);
         videoArrayList = new ArrayList<>();
-
 
         if ((ContextCompat.checkSelfPermission(getContext(),
                 Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(getContext(),
@@ -81,8 +82,10 @@ public class VideoFragment extends Fragment {
         Cursor cursor = contentResolver.query(uri, null, null, null, null);
 
 
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
+        if (cursor != null && cursor.moveToFirst())
+        {
+            do
+                {
 
                 String title = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.TITLE));
                 String duration = cursor.getString(cursor.getColumnIndex(MediaStore.Video.VideoColumns.DURATION));
@@ -90,23 +93,22 @@ public class VideoFragment extends Fragment {
                 String data = cursor.getString(cursor.getColumnIndex(MediaStore.Video.Media.DATA));
                 int thum = cursor.getColumnIndexOrThrow(MediaStore.Video.Thumbnails.DATA);
 
-
                 VideoModel videoModel = new VideoModel();
                 videoModel.setVideoTitle(title);
                 videoModel.setVideoUri(Uri.parse(data));
                 videoModel.setStr_thumb(cursor.getString(thum));
                 videoModel.setVideoDuration(duration);
-
-
                 videoArrayList.add(videoModel);
+
+
 
             } while (cursor.moveToNext());
         }
 
-//           Log.e("Video==",videoArrayList.toString());
+
 
         VideoAdapter adapter = new VideoAdapter(getContext(), videoArrayList);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
         recyclerView.setAdapter(adapter);
     }
 
