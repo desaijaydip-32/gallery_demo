@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ActivitiesFragment">
+    android:background="#75DAD1D1"
+    tools:context=".Fragment.ActivitiesFragment">
 
 
     <TextView
@@ -12,24 +13,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="gfrtgh"
-        android:textSize="25dp"
+        android:text="@string/gfrtgh"
+        android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
 
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_launcher_background"
+       android:background="@drawable/ic_img"
+         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="-40dp" />
+        tools:layout_editor_absoluteX="-40dp"
+        android:contentDescription="@string/app_name" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -39,7 +40,8 @@
         android:src="@drawable/ic_baseline_remove_red_eye_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@+id/imageView3"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        android:contentDescription="@string/app_name" />
 
     <ImageView
         android:id="@+id/imageView4"
@@ -49,7 +51,8 @@
         android:background="@drawable/bg_eyes"
         android:src="@drawable/ic_baseline_message_24"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView2"
+        android:contentDescription="@string/app_name" />
 
     <ImageView
         android:id="@+id/imageView5"
@@ -67,17 +70,18 @@
         android:id="@+id/gritview"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="20dp"
         android:background="@drawable/bg_background"
         android:src="@drawable/loginlogo"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textView" />
+        app:layout_constraintTop_toBottomOf="@id/textView"
+        android:contentDescription="@string/app_name" />
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="gftrhg"
+        android:text="@string/gftrhg"
         app:layout_constraintStart_toEndOf="@+id/gritview"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
@@ -85,7 +89,7 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="jhii"
+        android:text="@string/jhii"
         app:layout_constraintStart_toEndOf="@+id/gritview"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -93,12 +97,12 @@
         android:id="@+id/ratingtextView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
         android:background="@drawable/rating_bg"
-        android:drawableLeft="@drawable/ic_baseline_star_24"
-        android:text="0.00"
+        android:drawableStart="@drawable/ic_baseline_star_24"
+        android:text="@string/_0_00"
         android:textColor="@color/white"
-        android:textSize="20dp"
+        android:textSize="20sp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView2" />
 
@@ -108,7 +112,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:background="@drawable/free_bg"
-        android:text="Free"
+        android:text="@string/free"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="@+id/ratingtextView4"
         app:layout_constraintStart_toStartOf="@+id/ratingtextView4"
@@ -130,17 +134,29 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_location"
-            android:src="@drawable/ic_baseline_location_on_24"/>
-
-
+            android:src="@drawable/ic_baseline_location_on_24"
+            android:contentDescription="@string/app_name" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:text="dfgkdf"
+            android:text="@string/dfgkdf"
             android:textColor="@color/white" />
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/hjjjjj"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="20dp"
+    android:textColor="@color/desc"
+        tools:layout_editor_absoluteX="11dp"
+        tools:layout_editor_absoluteY="709dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

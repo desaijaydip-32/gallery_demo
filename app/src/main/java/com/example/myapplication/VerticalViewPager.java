@@ -19,14 +19,16 @@ public class VerticalViewPager extends ViewPager {
         init();
     }
 
-    private void init() {
+    private void init()
+    {
 
         setPageTransformer(true, new VerticalPageTransformer());
         // The easiest way to get rid of the overscroll drawing that happens on the left and right
         setOverScrollMode(OVER_SCROLL_NEVER);
     }
 
-    private class VerticalPageTransformer implements ViewPager.PageTransformer {
+    private class VerticalPageTransformer implements ViewPager.PageTransformer
+    {
 
         @Override
         public void transformPage(View view, float position) {
@@ -45,8 +47,8 @@ public class VerticalViewPager extends ViewPager {
                 float yPosition = position * view.getHeight();
                 view.setTranslationY(yPosition);
 
-            } else {
-
+            } else
+                {
                 view.setAlpha(0);
             }
         }
@@ -78,7 +80,6 @@ public class VerticalViewPager extends ViewPager {
     public boolean onTouchEvent(MotionEvent ev) {
         return super.onTouchEvent(swapXY(ev));
     }
-
 
 
 }

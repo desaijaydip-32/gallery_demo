@@ -14,7 +14,6 @@ public class SharedPref {
 
     public SharedPref(Context context) {
 
-
         sp = context.getSharedPreferences("MySharedPrefs", MODE_PRIVATE);
         editor = sp.edit();
     }
