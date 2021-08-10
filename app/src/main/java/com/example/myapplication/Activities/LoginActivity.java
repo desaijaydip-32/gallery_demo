@@ -38,7 +38,8 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         aviLoader = new AviLoader(LoginActivity.this);
-        preferences = getSharedPreferences("UserData", MODE_PRIVATE);
+
+        preferences = getSharedPreferences("Demo", MODE_PRIVATE);
 
           loginValue();
 
@@ -47,11 +48,10 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 
 
-
-
                 if (binding.editEmail.getText().toString().equalsIgnoreCase("")) {
                     binding.editEmail.setError("Enter Valid Email");
                     binding.editEmail.setFocusable(true);
+
 
                 } else if (binding.editPassword.getText().toString().equalsIgnoreCase("")) {
                     binding.editPassword.setError("Enter Valid Password");
@@ -60,7 +60,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 else {
-
                     aviLoader.show();
 
                     Api retrofitAPI = Apiclient.getClient().create(Api.class);
@@ -75,27 +74,20 @@ public class LoginActivity extends AppCompatActivity {
                             aviLoader.dismiss();
                             if (response.isSuccessful() && dataModal != null) {
 
-
                                 String apitpkon = dataModal.getApi_token();
                                 String user_id = dataModal.getUser_id();
 
+                               CustomSHarPrefrences customSHarPrefrency= new CustomSHarPrefrences(LoginActivity.this);
+                               customSHarPrefrency.setApi_toekn(apitpkon);
+                               customSHarPrefrency.setUser_id(user_id);
 
-                                editor = preferences.edit();
-                                editor.putString("token", apitpkon);
-                                editor.putString("id", user_id);
-                                editor.apply();
 
-                                if (binding.checkBox.isChecked()) {
+//                             Log.e("api==", user_id);
+//                                editor = preferences.edit();
+//                                editor.putString("token", apitpkon);
+//                                editor.putString("id", user_id);
+//                                editor.commit();
 
-                                    editor.putBoolean("saveLogin",true);
-                                    editor.putString("Email",binding.editEmail.getText().toString());
-                                    editor.putString("password",binding.editPassword.getText().toString());
-                                    editor.apply();
-                                }
-
-                                else {
-                                    editor.clear().commit();
-                                }
 
                                 if (dataModal.getStatus() == "0") {
                                     Toast.makeText(LoginActivity.this, dataModal.getMessage(), Toast.LENGTH_SHORT).show();
@@ -104,6 +96,21 @@ public class LoginActivity extends AppCompatActivity {
                                     startActivity(new Intent(LoginActivity.this, FirstActivity2.class));
                                     Toast.makeText(LoginActivity.this, dataModal.getMessage(), Toast.LENGTH_SHORT).show();
                                 }
+
+//                                if (binding.checkBox.isChecked()) {
+//
+//                                    editor.putBoolean("saveLogin",true);
+//                                    editor.putString("Email",binding.editEmail.getText().toString());
+//                                    editor.putString("password",binding.editPassword.getText().toString());
+//                                    editor.apply();
+//                                }
+//
+//                                else {
+//
+//                                    editor.clear().commit();
+//                                }
+
+
 
 
                             }
@@ -127,7 +134,7 @@ public class LoginActivity extends AppCompatActivity {
     private void loginValue() {
         boolean savel= preferences.getBoolean("saveLogin", false);
 
-        if(savel){
+        if(savel== true){
 
             binding.editEmail.setText(preferences.getString("Email",""));
             binding.editPassword.setText(preferences.getString("password",""));

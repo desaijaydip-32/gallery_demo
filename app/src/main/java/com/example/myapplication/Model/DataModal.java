@@ -8,8 +8,6 @@ public class DataModal {
     String message;
     String user_id;
     String api_token;
-
-
     USer_model uSer_model;
 
 
@@ -21,14 +19,15 @@ public class DataModal {
         this.uSer_model = uSer_model;
     }
 
-    public String getStatus() {
-        return status;
-    }
+
 
     public void setStatus(String status) {
         this.status = status;
     }
 
+    public String getStatus() {
+        return status;
+    }
     public String getMessage() {
         return message;
     }

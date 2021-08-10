@@ -32,7 +32,8 @@ public class FirstActivity2 extends AppCompatActivity {
         setContentView(binding.getRoot());
         binding.bottomgationView.setBackground(null);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.container, new ActivitiesFragment()).addToBackStack(null).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, new ActivitiesFragment()).addToBackStack("Back").commit();
+
 
         binding.bottomgationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
@@ -65,7 +66,7 @@ public class FirstActivity2 extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        finishAffinity();
+       finish();
     }
 
 
