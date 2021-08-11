@@ -25,20 +25,23 @@ public class MyAdapter extends FragmentStatePagerAdapter {
 
     ArrayList<event_list> event = new ArrayList<>();
 
-    public MyAdapter(@NonNull FragmentManager fm, ArrayList<event_list> eventlist) {
+    public MyAdapter(@NonNull FragmentManager fm, ArrayList<event_list> eventlist)
+    {
         super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.event=eventlist;
     }
 
     @NonNull
     @Override
-    public Fragment getItem(int position) {
-
+    public Fragment getItem(int position)
+    {
         return Listcategoryfragment.getInstantFragment(event.get(position));
     }
 
     @Override
-    public int getCount() {
+    public int getCount()
+    {
         return event.size();
+
     }
 }

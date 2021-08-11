@@ -36,11 +36,9 @@ public class ActivitiesFragment extends Fragment {
     SharedPreferences shrd;
 
     AviLoader av;
-    int previousPosition = 0;
     SharedPreferences right;
-    private float x1, x2;
     CustomSHarPrefrences sHarPrefrences;
-    static final int MIN_DISTANCE = 150;
+
 
     MyAdapter mAdapter;
     VerticalViewPager mPager;
@@ -61,35 +59,32 @@ public class ActivitiesFragment extends Fragment {
         String token=  sHarPrefrences.getApi_toekn();
         String id=  sHarPrefrences.getUser_id();
 
-
-
         av = new AviLoader(getContext());
         mPager = view.findViewById(R.id.verticleviewpager);
 
-
+        av.show();
         Api retrofitAPI = Apiclient.getClient().create(Api.class);
         Call<listmodel> call = retrofitAPI.getlist(id, token, "0");
 
 
-        call.enqueue(new Callback<listmodel>()
-        {
+
+        call.enqueue(new Callback<listmodel>() {
             @Override
             public void onResponse(Call<listmodel> call, Response<listmodel> response) {
 
                 if (response.isSuccessful()) {
-                    listmodel list = response.body();
-
-                    ArrayList<event_list> eventlist = list.getEvent_list();
                     av.dismiss();
+                    listmodel list = response.body();
+                    ArrayList<event_list>  eventlist = list.getEvent_list();
+
                     mAdapter = new MyAdapter(getActivity().getSupportFragmentManager(), eventlist);
                     mPager.setAdapter(mAdapter);
                 }
-
             }
 
             @Override
             public void onFailure(Call<listmodel> call, Throwable t) {
-                Toast.makeText(getContext(), "" + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(),""+t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
 

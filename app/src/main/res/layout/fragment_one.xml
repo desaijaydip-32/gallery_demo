@@ -8,7 +8,6 @@
     tools:context=".Fragment.ActivitiesFragment">
 
 
-
     <TextView
         android:id="@+id/titletextView"
         android:layout_width="match_parent"
@@ -29,9 +28,7 @@
         android:contentDescription="@string/app_name"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titletextView"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="-40dp" />
+        app:layout_constraintTop_toBottomOf="@+id/titletextView" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -78,7 +75,7 @@
         app:layout_constraintTop_toBottomOf="@id/titletextView" />
 
     <TextView
-        android:id="@+id/eventTitle2"
+        android:id="@+id/eventText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/gftrhg"
@@ -91,7 +88,7 @@
         android:layout_height="wrap_content"
         android:text="@string/jhii"
         app:layout_constraintStart_toEndOf="@+id/gritview"
-        app:layout_constraintTop_toBottomOf="@+id/eventTitle2" />
+        app:layout_constraintTop_toBottomOf="@+id/eventText" />
 
     <TextView
         android:id="@+id/eventRating"
@@ -104,7 +101,7 @@
         android:textColor="@color/white"
         android:textSize="20sp"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/eventTitle2" />
+        app:layout_constraintTop_toTopOf="@+id/eventText" />
 
     <TextView
         android:id="@+id/price"
@@ -149,11 +146,11 @@
         android:id="@+id/description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
         android:layout_marginBottom="20dp"
         android:text="@string/hjjjjj"
         android:textColor="#373737"
         android:textSize="20sp"
-        android:layout_marginEnd="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteX="11dp"

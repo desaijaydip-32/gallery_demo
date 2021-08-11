@@ -6,18 +6,11 @@ import android.os.Parcelable;
 public class event_list implements Parcelable {
 
 
-      int  id;
-      String event_title;
+    int id;
+    String event_title;
     String start_time;
     String end_time;
     String location;
-
-
-
-    public static Creator<event_list> getCREATOR() {
-        return CREATOR;
-    }
-
     String description;
     String media;
     String event_rating;
@@ -29,13 +22,17 @@ public class event_list implements Parcelable {
     String status;
     String creat_art;
 
+    public static Creator<event_list> getCREATOR() {
+        return CREATOR;
+    }
+
     public event_list(int id, String event_title, String start_time, String end_time, String location, String description, String media, String event_rating, String is_free, String price, String total_join, String total_left, String join_limit, String status, String creat_art) {
         this.id = id;
         this.event_title = event_title;
         this.start_time = start_time;
         this.end_time = end_time;
         this.location = location;
-       this.description = description;
+        this.description = description;
         this.media = media;
         this.event_rating = event_rating;
         this.is_free = is_free;
@@ -58,7 +55,7 @@ public class event_list implements Parcelable {
         start_time = in.readString();
         end_time = in.readString();
         location = in.readString();
-        description= in.readString();
+        description = in.readString();
 
         media = in.readString();
         event_rating = in.readString();
@@ -91,6 +88,7 @@ public class event_list implements Parcelable {
     public void setDescription(String description) {
         this.description = description;
     }
+
     public int getId() {
         return id;
     }

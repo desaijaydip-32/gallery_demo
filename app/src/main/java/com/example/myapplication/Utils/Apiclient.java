@@ -15,6 +15,7 @@ public class Apiclient {
     public static Retrofit getClient() {
 
         OkHttpClient client = new OkHttpClient();
+
         client = new OkHttpClient.Builder()
                 .addInterceptor(new BasicAuthInterceptor("basic", "1234"))
                 .build();
@@ -30,6 +31,8 @@ public class Apiclient {
                     .client(client)
                     .build();
         }
+
+
         return retrofit;
     }
 }

@@ -47,7 +47,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
                 if (binding.editEmail.getText().toString().equalsIgnoreCase("")) {
                     binding.editEmail.setError("Enter Valid Email");
                     binding.editEmail.setFocusable(true);
